@@ -1,6 +1,7 @@
 # AndroidGame
 Milton Bradley's game "Guess Who?"
 # Autores
+\n
 Enmanuel Diaz Almeida
-Daniel Mares Esparza
-Mario Ruiz Cobian
+\nDaniel Mares Esparza
+\nMario Ruiz Cobian
