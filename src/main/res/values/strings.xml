@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Chat</string>
+    <string name="app_name">Guess Who?</string>
     <string name="enviar">Enviar</string>
     <string name="hintP">Pregunta por..</string>
     <string name="hintNombreP">Nombre del jugador aqui</string>
