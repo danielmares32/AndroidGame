@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.chat">
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_gw"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_gw_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Chat">
+        android:theme="@style/Theme.Chat"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".ChatActivity"
             android:exported="true" />
