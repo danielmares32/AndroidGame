@@ -8,12 +8,12 @@ import android.widget.Button
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_login)
 
-        val chat : Button = findViewById(R.id.btnchat)
+        /*val chat : Button = findViewById(R.id.btnchat)
             chat.setOnClickListener {
                 val intent= Intent(this,ChatActivity::class.java)
                 startActivity(intent)
-            }
+            }*/
     }
 }
