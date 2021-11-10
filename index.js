@@ -1,4 +1,12 @@
 const socket = require('socket.io');
+const mysql = require('mysql');
+const { response } = require('express');
+var conn = mysql.createConnection({
+  host:"localhost",
+  user:"daniel",
+  password:"password",
+  database:"guess_who"
+});
 var express = require('express'),
     app = express(),
     session = require('express-session');
@@ -9,9 +17,19 @@ app.use(session({
 }));
 app.use(express.json());
 
+conn.connect((err)=>{
+  if(err){ 
+    console.log('Error in DB Connection');
+    throw err;
+  } else{
+    console.log('Connected to the DB!');
+  }
+})
+
 // Authentication and Authorization Middleware
 var auth = function(req, res, next) {
-  if (req.session && req.session.user === "daniel")
+  console.log('session: '+req.session.user);
+  if (req.session.user != undefined)
     return next();
   else
     return res.sendStatus(401);
@@ -19,13 +37,20 @@ var auth = function(req, res, next) {
 
 // Login endpoint
 app.post('/login', function (req, res) {
-  console.log(req.body.usuario);
-  if (!req.body.usuario || !req.body.password) {
-    res.send('login failed');    
-  } else if(req.body.usuario === "daniel" || req.body.password === "123") {
-    req.session.user = "daniel";
-    res.send("login success!");
-  }
+  let usuario = req.body.usuario;
+  let pass = req.body.password;
+  console.log(req.body);
+  conn.query(`SELECT * FROM usuarios WHERE nombre='${usuario}' and passwd='${pass}'`, function (err, result) {
+    console.log(result);
+    if (err || result[0] == undefined){
+      //throw err;
+      res.send('login failed');
+    } else{
+      req.session.user = result[0].nombre;
+      res.send('login success!');
+    }
+
+  });
 });
 
 // Logout endpoint
