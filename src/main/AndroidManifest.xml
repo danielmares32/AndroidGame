@@ -15,6 +15,10 @@
             android:exported="true"
             android:screenOrientation="landscape"/>
         <activity
+            android:name=".RegistroActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"/>
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="landscape">

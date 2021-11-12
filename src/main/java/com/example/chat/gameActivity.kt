@@ -1,4 +1,4 @@
-package com.example.guesswho
+/*package com.example.guesswho
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chat.R
 
 class MainActivity : AppCompatActivity() {
     private lateinit var person: RecyclerView
@@ -52,4 +53,4 @@ class MainActivity : AppCompatActivity() {
         person.adapter=adaptador
 
     }
-}
+}*/

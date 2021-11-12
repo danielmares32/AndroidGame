@@ -1,4 +1,4 @@
-package com.example.guesswho
+/*package com.example.guesswho
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chat.R
 
 data class Personaje (val Foto:String,val Nom:String)
 class AdaptadorPersonaje(private val datos:MutableList<Personaje>,
@@ -38,4 +39,4 @@ class AdaptadorPersonaje(private val datos:MutableList<Personaje>,
         return datos.size
     }
 
-}
+}*/
