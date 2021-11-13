@@ -64,6 +64,35 @@ app.post('/content', auth, function (req, res) {
     res.send("You can only see this after you've logged in.");
 });
 
+
+app.post('/registro', (req, res)=>{
+  let nombre = req.body.name;
+  let nombreUsuario = req.body.username;
+  let pais = req.body.country;
+  let passwd = req.body.password;
+  conn.query(`SELECT * FROM paises WHERE nombre='${pais}`, (err, result)=>{
+    console.log(result);
+    if (err || result[0] == undefined){
+      //throw err;
+      res.send('Pais No encontrado');
+    } else{
+      let idPais = result[0].id;
+      conn.query(`INSERT INTO usuarios VALUES(${nombreUsuario},${nombre},${idPais},${passwd})`,(err2, result2)=>{
+        console.log(result);
+        if (err){
+          //throw err;
+          res.send('sign up failed');
+        } else{
+          res.send('success!');
+        }
+      });
+      
+    }
+  })
+  
+});
+
+
 var server = app.listen(3000);
 console.log("app running at http://localhost:3000");
 
