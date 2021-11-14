@@ -3,7 +3,7 @@ const mysql = require('mysql');
 const { response } = require('express');
 var conn = mysql.createConnection({
   host:"localhost",
-  user:"daniel",
+  user:"root",
   password:"password",
   database:"guess_who"
 });
@@ -40,14 +40,14 @@ app.post('/login', function (req, res) {
   let usuario = req.body.usuario;
   let pass = req.body.password;
   console.log(req.body);
-  conn.query(`SELECT * FROM usuarios WHERE nombre='${usuario}' and passwd='${pass}'`, function (err, result) {
+  conn.query(`SELECT * FROM usuarios WHERE id_usu='${usuario}' and passwd='${pass}'`, function (err, result) {
     console.log(result);
     if (err || result[0] == undefined){
       //throw err;
-      res.send('login failed');
+      res.send('{"mensaje":"login failed"}');
     } else{
       req.session.user = result[0].nombre;
-      res.send('login success!');
+      res.send('{"mensaje":"login success!"}');
     }
 
   });
@@ -60,7 +60,7 @@ app.post('/logout', function (req, res) {
 });
 
 // Get content endpoint
-app.post('/content', auth, function (req, res) {
+app.get('/content', auth, function (req, res) {
     res.send("You can only see this after you've logged in.");
 });
 
@@ -70,20 +70,21 @@ app.post('/registro', (req, res)=>{
   let nombreUsuario = req.body.username;
   let pais = req.body.country;
   let passwd = req.body.password;
-  conn.query(`SELECT * FROM paises WHERE nombre='${pais}`, (err, result)=>{
+  console.log(req.body);
+  conn.query(`SELECT * FROM paises WHERE nombre='${pais}'`, (err, result)=>{
     console.log(result);
     if (err || result[0] == undefined){
       //throw err;
-      res.send('Pais No encontrado');
+      res.send('{"message":"Pais No encontrado"}');
     } else{
-      let idPais = result[0].id;
-      conn.query(`INSERT INTO usuarios VALUES(${nombreUsuario},${nombre},${idPais},${passwd})`,(err2, result2)=>{
-        console.log(result);
-        if (err){
-          //throw err;
-          res.send('sign up failed');
+      let idPais = result[0].id_p;
+      conn.query(`INSERT INTO usuarios VALUES('${nombreUsuario}','${nombre}','${idPais}',null,'D','${passwd}')`,(err2, result2)=>{
+        console.log(result2);
+        if (err2){
+          console.log(err2);
+          res.send('{"message":"sign up failed"}');
         } else{
-          res.send('success!');
+          res.send('{"message":"success!"}');
         }
       });
       

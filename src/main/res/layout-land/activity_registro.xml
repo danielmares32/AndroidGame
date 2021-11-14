@@ -20,6 +20,7 @@
         android:padding="15dp">
 
         <EditText
+            android:id="@+id/name"
             android:textStyle="bold"
             android:imeOptions="flagNoExtractUi"
             android:layout_margin="5dp"
@@ -31,8 +32,8 @@
             android:textColorHint="@color/azul"/>
 
         <EditText
+            android:id="@+id/username"
             android:textStyle="bold"
-            android:inputType="textPassword"
             android:imeOptions="flagNoExtractUi"
             android:layout_margin="5dp"
             android:gravity="center"
@@ -43,8 +44,8 @@
             android:textColorHint="@color/azul"/>
 
         <EditText
+            android:id="@+id/country"
             android:textStyle="bold"
-            android:inputType="textPassword"
             android:imeOptions="flagNoExtractUi"
             android:layout_margin="5dp"
             android:gravity="center"
@@ -56,6 +57,7 @@
 
 
         <EditText
+            android:id="@+id/password"
             android:textStyle="bold"
             android:inputType="textPassword"
             android:imeOptions="flagNoExtractUi"
@@ -68,6 +70,7 @@
             android:textColorHint="@color/azul"/>
 
         <EditText
+            android:id="@+id/passwordConfirm"
             android:textStyle="bold"
             android:inputType="textPassword"
             android:imeOptions="flagNoExtractUi"
@@ -80,6 +83,7 @@
             android:textColorHint="@color/azul"/>
 
         <Button
+            android:id="@+id/signup"
             android:layout_marginHorizontal="25dp"
             android:gravity="center"
             android:layout_width="match_parent"
