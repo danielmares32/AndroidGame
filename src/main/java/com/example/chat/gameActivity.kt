@@ -1,4 +1,4 @@
-/*package com.example.guesswho
+package com.example.chat
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chat.R
 
-class MainActivity : AppCompatActivity() {
+class gameActivity : AppCompatActivity() {
     private lateinit var person: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.game_activity)
         person = findViewById(R.id.Personaje)
 
         val datos = MutableList(1){
@@ -53,4 +53,4 @@ class MainActivity : AppCompatActivity() {
         person.adapter=adaptador
 
     }
-}*/
+}
