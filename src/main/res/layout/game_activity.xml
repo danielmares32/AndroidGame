@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".gameActivity"
     android:orientation="vertical">
-    <!--android:background="@drawable/grad1">-->
+    android:background="@drawable/grad1"
 <LinearLayout
     android:layout_width="wrap_content"
     android:orientation="horizontal"
@@ -25,11 +25,21 @@
         android:layout_height="wrap_content"/>
 
 </LinearLayout>
-    <androidx.recyclerview.widget.RecyclerView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/Personaje">
+        android:orientation="horizontal">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Personaje">
+
+        </androidx.recyclerview.widget.RecyclerView>
+        <com.example.chat.ChatActivity
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
 
 </LinearLayout>
