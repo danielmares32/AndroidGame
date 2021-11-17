@@ -7,8 +7,11 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.RelativeLayout
+import android.widget.TextView
 
 class ChatActivity :  RelativeLayout {
+
+    private lateinit var username: TextView
 
     constructor(context: Context?) : super(context){
         val li = LayoutInflater.from(context)
@@ -26,4 +29,10 @@ class ChatActivity :  RelativeLayout {
         val li = LayoutInflater.from(context)
         li.inflate(R.layout.activity_chat,this,true)
     }
+
+    public fun setUserName(username:String){
+        this.username = findViewById(R.id.lblPalyerName)
+        this.username.text = username
+    }
+
 }

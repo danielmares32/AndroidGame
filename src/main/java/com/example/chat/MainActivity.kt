@@ -18,6 +18,8 @@ import com.android.volley.toolbox.JsonObjectRequest
 import org.json.JSONException
 
 
+
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var username: EditText
@@ -64,7 +66,15 @@ class MainActivity : AppCompatActivity() {
             Request.Method.POST,
             url,
             postData,
-            { response -> println(response) }
+            { response ->
+                println(response)
+                println(JSONObject(response.toString()).get("mensaje"))
+                val mensaje = JSONObject(response.toString()).get("mensaje")
+                if(mensaje == "login success!"){
+                    val intent = Intent(this,gameActivity()::class.java).apply { putExtra("username",username) }
+                    startActivity(intent)
+                }
+            }
         ) { error -> error.printStackTrace() }
 
         requestQueue.add(jsonObjectRequest)

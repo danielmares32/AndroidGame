@@ -36,9 +36,12 @@
             android:id="@+id/Personaje">
 
         </androidx.recyclerview.widget.RecyclerView>
+
         <com.example.chat.ChatActivity
+            android:id="@+id/chat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
     </LinearLayout>
 
 
