@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/room">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Play With A Firend"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:textSize="40sp"
+        android:textColor="@color/black"
+        android:background="#ccffffff"
+        android:padding="15dp"
+        android:textStyle="bold"
+        />
+
+    <EditText
+        android:id="@+id/roomCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:hint="Room Code Here"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:padding="15dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        android:background="#ccffffff"/>
+
+    <Button
+        android:id="@+id/playBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Play"
+        android:textSize="40sp"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/azul"
+        android:padding="15dp"
+        android:layout_marginTop="25dp"/>
+
+</LinearLayout>
