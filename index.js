@@ -94,6 +94,21 @@ app.post('/registro', (req, res)=>{
 });
 
 
+
+app.post('/buscar_puntuacion', (req,res)=>{
+  let id_jugador = req.body.id;
+  console.log(req.body);
+    conn.query(`SELECT nombre,total_partidas,total_victorias,total_derrotas,total_puntos 
+      FROM puntuaciones,usuarios WHERE puntuaciones.id_punt=usuarios.id_puntuacion and usuario.id_usu='${id_jugador}'`,(err,result)=>{
+        console.log(result);
+        res.send('{"total_partidas":"result.total_partidas","total_derrotas":"result.total_derrotas","total_victorias":"result.total_victorias","total_puntos":"result.total_puntos"}');
+      });
+
+});
+
+
+
+
 var server = app.listen(3000);
 console.log("app running at http://localhost:3000");
 
