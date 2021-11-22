@@ -91,14 +91,8 @@
 
             </TableRow>
         </TableLayout>
-        <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_back"
-            android:layout_marginLeft="600dp"
-            android:backgroundTint="@color/azul"
-            android:layout_marginTop="10dp"/>
+
+
     </LinearLayout>
 
 </LinearLayout>

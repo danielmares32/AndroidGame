@@ -99,9 +99,9 @@ app.post('/buscar_puntuacion', (req,res)=>{
   let id_jugador = req.body.id;
   console.log(req.body);
     conn.query(`SELECT nombre,total_partidas,total_victorias,total_derrotas,total_puntos 
-      FROM puntuaciones,usuarios WHERE puntuaciones.id_punt=usuarios.id_puntuacion and usuario.id_usu='${id_jugador}'`,(err,result)=>{
+      FROM puntuaciones,usuarios WHERE puntuaciones.id_punt=usuarios.id_puntuacion and usuarios.id_usu='${id_jugador}'`,(err,result)=>{
         console.log(result);
-        res.send('{"total_partidas":"result.total_partidas","total_derrotas":"result.total_derrotas","total_victorias":"result.total_victorias","total_puntos":"result.total_puntos"}');
+        res.send(`{"total_partidas":"${result[0].total_partidas}","total_derrotas":"${result[0].total_derrotas}","total_victorias":"${result[0].total_victorias}","total_puntos":"${result[0].total_puntos}"}`);
       });
 
 });

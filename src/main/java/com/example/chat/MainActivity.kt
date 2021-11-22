@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
                 println(JSONObject(response.toString()).get("mensaje"))
                 val mensaje = JSONObject(response.toString()).get("mensaje")
                 if(mensaje == "login success!"){
-                    val intent = Intent(this,gameActivity()::class.java).apply { putExtra("username",username) }
+                    val intent = Intent(this,menu_activity()::class.java).apply { putExtra("username",username) }
                     startActivity(intent)
                 }
             }

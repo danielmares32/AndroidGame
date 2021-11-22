@@ -23,6 +23,22 @@
             android:exported="true"
             android:screenOrientation="landscape"/>
         <activity
+            android:name=".historial_activity"
+            android:exported="true"
+            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".menu_activity"
+            android:exported="true"
+            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".RoomActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".Room2Activity"
+            android:exported="true"
+            android:screenOrientation="landscape"/>
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="landscape">

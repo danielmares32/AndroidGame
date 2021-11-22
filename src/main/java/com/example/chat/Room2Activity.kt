@@ -15,8 +15,8 @@ class Room2Activity : AppCompatActivity() {
     private lateinit var roomCode:EditText
     private lateinit var playBtn:Button
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room2)
 
         roomCode = findViewById(R.id.roomCode)

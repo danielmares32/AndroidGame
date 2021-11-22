@@ -1,4 +1,4 @@
-package com.example.puntuaciones_test
+package com.example.chat
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -18,28 +18,19 @@ class historial_activity : AppCompatActivity() {
     private lateinit var derrotas : TextView
     private lateinit var puntos : TextView
     private lateinit var volver : ImageButton
-    private val URL = "http://localhost:3000/buscar_puntuacion"
+    private val URL = "http://10.0.2.2:3000/buscar_puntuacion"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_historial)
 
         //recibimos el id del jugador, necesario para mostrar sus datos
-        val id_jugador = intent.getSerializableExtra("id_jugador") as String
-
-
-
+        val id_jugador = intent.getSerializableExtra("username") as String
 
         partidas = findViewById(R.id.lblPart)
         victorias = findViewById(R.id.lblV)
         derrotas = findViewById(R.id.lblD)
         puntos = findViewById(R.id.lblP)
-        volver = findViewById(R.id.btnBack)
 
-        volver.setOnClickListener {
-            val intent= Intent(this,menu_activity::class.java)
-            intent.putExtra("id_jugador",id_jugador)
-            startActivity(intent)
-        }
         ConsultarInfo(id_jugador)
     }
 

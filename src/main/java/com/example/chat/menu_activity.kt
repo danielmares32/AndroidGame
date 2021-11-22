@@ -1,9 +1,11 @@
-package com.example.puntuaciones_test
+package com.example.chat
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import com.example.chat.MainActivity
+import com.example.chat.R
 
 class menu_activity : AppCompatActivity() {
     private lateinit var individual : Button
@@ -20,7 +22,7 @@ class menu_activity : AppCompatActivity() {
         salir = findViewById(R.id.btnSalir)
 
         //recibimos el id del jugador que ha iniciado sesion
-        val id_jugador = intent.getSerializableExtra("id_jugador") as String
+        val id_jugador = intent.getSerializableExtra("username") as String
 
         //salir definitivamente de la aplicacion.
         salir.setOnClickListener {
@@ -38,12 +40,13 @@ class menu_activity : AppCompatActivity() {
         }
 
         pvp.setOnClickListener {
-
+            val intent = Intent(this,RoomActivity()::class.java).apply { putExtra("username",id_jugador) }
+            startActivity(intent)
         }
 
         historial.setOnClickListener{
             val intent= Intent(this,historial_activity::class.java)
-            intent.putExtra("id_jugador",id_jugador)
+            intent.putExtra("username",id_jugador)
             startActivity(intent)
         }
     }
