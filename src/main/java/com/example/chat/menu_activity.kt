@@ -9,7 +9,8 @@ import com.example.chat.R
 
 class menu_activity : AppCompatActivity() {
     private lateinit var individual : Button
-    private lateinit var pvp : Button
+    private lateinit var pvpNew : Button
+    private lateinit var pvpJoin : Button
     private lateinit var historial : Button
     private lateinit var salir : Button
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +18,8 @@ class menu_activity : AppCompatActivity() {
         setContentView(R.layout.activity_menu)
 
         individual = findViewById(R.id.btnInd)
-        pvp = findViewById(R.id.btnPvp)
+        pvpNew= findViewById(R.id.btnPvpNew)
+        pvpJoin= findViewById(R.id.btnPvpJoin)
         historial = findViewById(R.id.btnHist)
         salir = findViewById(R.id.btnSalir)
 
@@ -39,8 +41,13 @@ class menu_activity : AppCompatActivity() {
 
         }
 
-        pvp.setOnClickListener {
+        pvpNew.setOnClickListener {
             val intent = Intent(this,RoomActivity()::class.java).apply { putExtra("username",id_jugador) }
+            startActivity(intent)
+        }
+
+        pvpJoin.setOnClickListener {
+            val intent = Intent(this,Room2Activity()::class.java).apply { putExtra("username",id_jugador) }
             startActivity(intent)
         }
 

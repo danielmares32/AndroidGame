@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:orientation="vertical"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="25dp"
         android:layout_marginHorizontal="150dp"
         android:background="#CC28304C"
@@ -40,7 +40,7 @@
             android:backgroundTint="@color/azul"
             android:text="INDIVIDUAL"/>
         <Button
-            android:id="@+id/btnPvp"
+            android:id="@+id/btnPvpNew"
             android:layout_marginTop="5dp"
             android:layout_marginHorizontal="25dp"
             android:layout_marginBottom="5dp"
@@ -48,7 +48,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/azul"
-            android:text="PVP"/>
+            android:text="PVP NEW"/>
+        <Button
+            android:id="@+id/btnPvpJoin"
+            android:layout_marginTop="5dp"
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/azul"
+            android:text="PVP JOIN"/>
         <Button
             android:id="@+id/btnHist"
             android:layout_marginHorizontal="25dp"

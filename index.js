@@ -93,8 +93,6 @@ app.post('/registro', (req, res)=>{
   
 });
 
-
-
 app.post('/buscar_puntuacion', (req,res)=>{
   let id_jugador = req.body.id;
   console.log(req.body);
@@ -106,7 +104,20 @@ app.post('/buscar_puntuacion', (req,res)=>{
 
 });
 
+app.post('/newGame', (req, res)=>{
+  let id_usuario1 = req.body.username;
+  console.log('New Game');
+  console.log(req.body);
+  conn.query(`INSERT INTO partidas (id_usuario1, id_usuario2, id_usuario1_personaje, id_usuario2_personaje, id_usuario_ganador) VALUES ('${id_usuario1}', NULL, NULL, NULL, NULL)`, (err, result)=>{
+    if(err) throw err;
+    console.log(result);
+    res.send(`{"gameId":"${result.insertId}"}`);
+  });
+});
 
+app.post('/joinGame', (req,res)=>{
+
+});
 
 
 var server = app.listen(3000);

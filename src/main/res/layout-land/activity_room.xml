@@ -8,9 +8,10 @@
     android:background="@drawable/room">
 
     <TextView
+        android:id="@+id/roomCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Room Code: 159853"
+        android:text="Room Code: "
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
         android:textSize="40sp"
@@ -29,21 +30,8 @@
         android:textStyle="bold"
         android:padding="15dp"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:background="#ccffffff"/>
 
-    <TextView
-        android:id="@+id/enterCode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Have a Code? Press Here"
-        android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:textSize="40sp"
-        android:textColor="@color/black"
-        android:background="#ccffffff"
-        android:padding="15dp"
-        android:textStyle="bold"
-        />
 
 </LinearLayout>
