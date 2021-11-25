@@ -2,12 +2,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?android:selectableItemBackground"
     android:layout_height="wrap_content">
-    <ImageView
-        android:layout_width="170dp"
-        android:layout_height="170dp"
-        android:id="@+id/PImagen"/>
+    <com.wajahatkarim3.easyflipview.EasyFlipView
+        android:id="@+id/flipC"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:flipOnTouch="true"
+        app:flipEnabled="true"
+        app:flipType="horizontal"
+        app:flipFrom="right"
+        app:autoFlipBack="false"
+
+        >
+
+        <!-- imagen trasera -->
+        <ImageView
+
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/back"
+            />
+
+        <!-- imagen frontal -->
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:id="@+id/PImagen"/>
+
+    </com.wajahatkarim3.easyflipview.EasyFlipView>
+
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
