@@ -12,6 +12,7 @@ import android.widget.TextView
 class ChatActivity :  RelativeLayout {
 
     private lateinit var username: TextView
+    private lateinit var chatList: ArrayList<Message>
 
     constructor(context: Context?) : super(context){
         val li = LayoutInflater.from(context)

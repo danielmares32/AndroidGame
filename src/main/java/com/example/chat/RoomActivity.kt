@@ -2,6 +2,7 @@ package com.example.chat
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.os.PersistableBundle
 import android.util.Log
 import android.widget.TextView
@@ -25,6 +26,10 @@ class RoomActivity :  AppCompatActivity() {
 
         val username = intent.getSerializableExtra("username") as String
         crearPartida(username)
+        Handler().postDelayed({
+            //doSomethingHere()
+            requestRoom(username, gameId)
+        }, 2000)
 
     }
 
@@ -54,6 +59,40 @@ class RoomActivity :  AppCompatActivity() {
         ) { error -> error.printStackTrace() }
 
         requestQueue.add(jsonObjectRequest)
+    }
+
+    private fun requestRoom(username: String, roomCode: String){
+        print("Entre a request room")
+        SocketHandler.setSocket()
+        SocketHandler.establishConnection()
+        val mSocket = SocketHandler.getSocket()
+
+        val data: JSONObject = JSONObject()
+        try {
+            data.put("user", username)
+            data.put("chatId", roomCode)
+        } catch (e: JSONException) {
+            Log.d("Error", e.toString())
+        }
+        print("Mando al socket")
+        print(data.toString())
+        mSocket.emit("chat", data)
+        mSocket.on("newUserToChatRoom") { args ->
+            if (args[0] != null) {
+                val player2 = args[0] as String
+                if(player2 != username) {
+                    println("Respuesta del socket")
+                    println(args[0].toString())
+                    runOnUiThread {
+                        val intent = Intent(this, gameActivity()::class.java).apply {
+                            putExtra("username", player2)
+                        }
+                        startActivity(intent)
+                    }
+                }
+            }
+        }
+
     }
 
 }

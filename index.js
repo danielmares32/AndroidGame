@@ -1,6 +1,6 @@
-const socket = require('socket.io');
+const socketio = require('socket.io');
 const mysql = require('mysql');
-const { response } = require('express');
+const { response, Router } = require('express');
 var conn = mysql.createConnection({
   host:"localhost",
   user:"root",
@@ -11,6 +11,11 @@ var express = require('express'),
     app = express(),
     session = require('express-session');
 app.use(session({
+    cookie: {
+      path    : '/',
+      httpOnly: false,
+      maxAge  : 24*60*60*1000
+    },
     secret: '2C44-4D44-WppQ38S',
     resave: true,
     saveUninitialized: true
@@ -27,13 +32,13 @@ conn.connect((err)=>{
 })
 
 // Authentication and Authorization Middleware
-var auth = function(req, res, next) {
+/*var auth = function(req, res, next) {
   console.log('session: '+req.session.user);
   if (req.session.user != undefined)
     return next();
   else
     return res.sendStatus(401);
-};
+};*/
 
 // Login endpoint
 app.post('/login', function (req, res) {
@@ -46,7 +51,7 @@ app.post('/login', function (req, res) {
       //throw err;
       res.send('{"mensaje":"login failed"}');
     } else{
-      req.session.user = result[0].nombre;
+      //req.session.user = result[0].id_usu;
       res.send('{"mensaje":"login success!"}');
     }
 
@@ -54,7 +59,7 @@ app.post('/login', function (req, res) {
 });
 
 // Logout endpoint
-app.post('/logout', function (req, res) {
+/*app.post('/logout', function (req, res) {
   req.session.destroy();
   res.send("logout success!");
 });
@@ -62,7 +67,7 @@ app.post('/logout', function (req, res) {
 // Get content endpoint
 app.get('/content', auth, function (req, res) {
     res.send("You can only see this after you've logged in.");
-});
+});*/
 
 
 app.post('/registro', (req, res)=>{
@@ -94,6 +99,7 @@ app.post('/registro', (req, res)=>{
 });
 
 app.post('/buscar_puntuacion', (req,res)=>{
+  //let id_jugador = req.session.user;
   let id_jugador = req.body.id;
   console.log(req.body);
     conn.query(`SELECT nombre,total_partidas,total_victorias,total_derrotas,total_puntos 
@@ -115,36 +121,48 @@ app.post('/newGame', (req, res)=>{
   });
 });
 
-app.post('/joinGame', (req,res)=>{
-
+app.post('/joinGame',(req,res)=>{
+  let id_usuario2 = req.body.username;
+  let id = req.body.gameId;
+  console.log('Join');
+  console.log(req.body);
+  conn.query(`UPDATE partidas SET id_usuario2 = '${id_usuario2}' WHERE id_game = '${id}'`,(err, result)=>{
+    if(err) throw err;
+    console.log(result);
+    res.send(`{"message":"Unido a la partida"}`);
+  });
 });
 
 
 var server = app.listen(3000);
 console.log("app running at http://localhost:3000");
 
-var io = socket(server);
+var io = socketio(server);
 //socket.io connection for the chat
-io.on('connection', auth, (socket)=>{
+var users = Array()
+io.on('connection', (socket)=>{
   var user = '';
   console.log("New chat connection: "+ socket.id);
   socket.on('chat', (data)=>{
-    let chat_data = JSON.parse(data);
-    let user = chat_data.user
-    let chatId = chat_data.chatId;
+    console.log(data);
+    let username = data.user;
+    let chatId = data.chatId;
     socket.join(`${chatId}`);
-    console.log(`Username : ${user} joined Chat ID : ${chatId}`);
-
-    io.to(`${chatId}`).emit('newUserToChatRoom',user);
-
+    console.log(`Username : ${username} joined Chat ID : ${chatId}`);
+    users.push(username);
+    console.log(users);
+    for (const u of users) {
+      io.to(`${chatId}`).emit('newUserToChatRoom',u);
+    }
+    
   });
 
   socket.on('leave', (data)=>{
     let chat_data = JSON.parse(data);
-    let user = chat_data.user;
+    let username = chat_data.user;
     let chatId = chat_data.chatId;
 
-    console.log(`Username : ${user} leaved Room Name : ${chatId}`);
+    console.log(`Username : ${username} leaved Room Name : ${chatId}`);
     socket.broadcast.to(`${chatId}`).emit('userLeftChatRoom',user);
     socket.leave(`${chatId}`);
   })

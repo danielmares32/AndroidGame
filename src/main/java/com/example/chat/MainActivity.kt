@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
+        var requests: ServerRequest = ServerRequest(this)
         this.username=findViewById(R.id.username)
         this.password=findViewById(R.id.password)
         this.loginBtn=findViewById(R.id.btnLogin)
@@ -38,6 +38,13 @@ class MainActivity : AppCompatActivity() {
 
 
         this.loginBtn.setOnClickListener {
+            /*val respuesta = requests.login(username.text.toString(), password.text.toString())
+            print("Desde login")
+            print(respuesta)
+            if(respuesta){
+                val intent = Intent(this,menu_activity()::class.java).apply { putExtra("username",username.text.toString()) }
+                startActivity(intent)
+            }*/
             login(username.text.toString(),password.text.toString())
         }
 
