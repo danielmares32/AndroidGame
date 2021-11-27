@@ -9,9 +9,9 @@
         android:id="@+id/flipC"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        app:flipOnTouch="true"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        app:flipOnTouch="false"
         app:flipEnabled="true"
         app:flipType="horizontal"
         app:flipFrom="right"
@@ -22,15 +22,15 @@
         <!-- imagen trasera -->
         <ImageView
 
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
             android:src="@drawable/back"
             />
 
         <!-- imagen frontal -->
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
             android:id="@+id/PImagen"/>
 
     </com.wajahatkarim3.easyflipview.EasyFlipView>

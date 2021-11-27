@@ -87,6 +87,7 @@ class Room2Activity : AppCompatActivity() {
                     runOnUiThread {
                         val intent = Intent(this, gameActivity()::class.java).apply {
                             putExtra("username", player2)
+                            putExtra("roomId",roomCode)
                         }
                         startActivity(intent)
                     }

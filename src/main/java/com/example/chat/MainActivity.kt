@@ -10,9 +10,6 @@ import com.android.volley.Request
 import org.json.JSONObject
 import com.android.volley.toolbox.Volley
 
-import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.android.volley.VolleyError
 
 import com.android.volley.toolbox.JsonObjectRequest
 import org.json.JSONException
@@ -30,7 +27,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        var requests: ServerRequest = ServerRequest(this)
         this.username=findViewById(R.id.username)
         this.password=findViewById(R.id.password)
         this.loginBtn=findViewById(R.id.btnLogin)
@@ -38,13 +34,6 @@ class MainActivity : AppCompatActivity() {
 
 
         this.loginBtn.setOnClickListener {
-            /*val respuesta = requests.login(username.text.toString(), password.text.toString())
-            print("Desde login")
-            print(respuesta)
-            if(respuesta){
-                val intent = Intent(this,menu_activity()::class.java).apply { putExtra("username",username.text.toString()) }
-                startActivity(intent)
-            }*/
             login(username.text.toString(),password.text.toString())
         }
 

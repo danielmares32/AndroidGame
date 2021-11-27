@@ -20,7 +20,9 @@ class gameActivity : AppCompatActivity() {
         chat = findViewById(R.id.chat)
 
         val username: String? = intent.getStringExtra("username")
+        val chatId: String? = intent.getStringExtra("roomId")
         chat.setUserName("Rival: "+username!!)
+        chat.setRoomId(chatId!!)
 
 
         val datos = MutableList(1){

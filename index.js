@@ -31,15 +31,6 @@ conn.connect((err)=>{
   }
 })
 
-// Authentication and Authorization Middleware
-/*var auth = function(req, res, next) {
-  console.log('session: '+req.session.user);
-  if (req.session.user != undefined)
-    return next();
-  else
-    return res.sendStatus(401);
-};*/
-
 // Login endpoint
 app.post('/login', function (req, res) {
   let usuario = req.body.usuario;
@@ -51,23 +42,11 @@ app.post('/login', function (req, res) {
       //throw err;
       res.send('{"mensaje":"login failed"}');
     } else{
-      //req.session.user = result[0].id_usu;
       res.send('{"mensaje":"login success!"}');
     }
 
   });
 });
-
-// Logout endpoint
-/*app.post('/logout', function (req, res) {
-  req.session.destroy();
-  res.send("logout success!");
-});
-
-// Get content endpoint
-app.get('/content', auth, function (req, res) {
-    res.send("You can only see this after you've logged in.");
-});*/
 
 
 app.post('/registro', (req, res)=>{
@@ -149,6 +128,7 @@ io.on('connection', (socket)=>{
     let chatId = data.chatId;
     socket.join(`${chatId}`);
     console.log(`Username : ${username} joined Chat ID : ${chatId}`);
+    user = username;
     users.push(username);
     console.log(users);
     for (const u of users) {
@@ -165,7 +145,7 @@ io.on('connection', (socket)=>{
     console.log(`Username : ${username} leaved Room Name : ${chatId}`);
     socket.broadcast.to(`${chatId}`).emit('userLeftChatRoom',user);
     socket.leave(`${chatId}`);
-  })
+  });
 
   socket.on('newMessage',(data)=> {
     let messageData = JSON.parse(data)
@@ -180,7 +160,7 @@ io.on('connection', (socket)=>{
         messageContent : messageContent,
         chatId : chatId
     }
-    socket.broadcast.to(`${chatId}`).emit('updateChat',JSON.stringify(chatData)) // Need to be parsed into Kotlin object in Kotlin
-  })
+    socket.broadcast.to(`${chatId}`).emit('updateChat',JSON.stringify(chatData));
+  });
 
 }); 
