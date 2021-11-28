@@ -148,15 +148,15 @@ io.on('connection', (socket)=>{
   });
 
   socket.on('newMessage',(data)=> {
-    let messageData = JSON.parse(data)
-    let messageContent = messageData.messageContent
-    let chatId = messageData.chatId
+    let messageContent = data.message
+    let username = data.username
+    let chatId = data.chatId
 
-    console.log(`[Room Number ${chatId}] ${user} : ${messageContent}`)
+    console.log(`[Room Number ${chatId}] ${username} : ${messageContent}`)
     
     // Just pass the data that has been passed from the writer socket
     const chatData = {
-        user : user,
+        user : username,
         messageContent : messageContent,
         chatId : chatId
     }

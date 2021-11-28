@@ -3,15 +3,20 @@ package com.example.chat
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chat.R
+import org.json.JSONException
+import org.json.JSONObject
 
 class gameActivity : AppCompatActivity() {
     private lateinit var person: RecyclerView
     private lateinit var chat: ChatActivity
+    private val mSocket = SocketHandler.getSocket()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +27,47 @@ class gameActivity : AppCompatActivity() {
         val username: String? = intent.getStringExtra("username")
         val chatId: String? = intent.getStringExtra("roomId")
         chat.setUserName("Rival: "+username!!)
-        chat.setRoomId(chatId!!)
+
+        chat.getLblsend().setOnClickListener {
+            if(chat.getMensaje().text.toString() != ""){
+                chat.getChatList().add(Message(username,chat.getMensaje().text.toString(),chatId!!,0))
+                val adapter = ChatAdapter(this, chat.getChatList())
+                //chat.getRecycler().setHasFixedSize(true)
+                chat.getRecycler().layoutManager = LinearLayoutManager(this)
+                chat.getRecycler().adapter = adapter
+                chat.getRecycler().scrollToPosition(chat.getChatList().size - 1)
+                enviarMensajes()
+                chat.getMensaje().text = ""
+            }
+        }
+        SocketHandler.setSocket()
+        SocketHandler.establishConnection()
+
+        mSocket.on("updateChat") { args ->
+            if (args[0] != null) {
+                println("Respuesta del socket")
+                val res = args[0] as String
+                val datos = JSONObject(res)
+                println(datos)
+                if(datos.get("user").toString() != username) {
+                    runOnUiThread {
+                        chat.getChatList().add(
+                            Message(
+                                datos.get("user").toString(),
+                                datos.get("messageContent").toString(),
+                                datos.get("chatId").toString(),
+                                1
+                            )
+                        )
+                        val adapter = ChatAdapter(this, chat.getChatList())
+                        //chat.getRecycler().setHasFixedSize(true)
+                        chat.getRecycler().layoutManager = LinearLayoutManager(this)
+                        chat.getRecycler().adapter = adapter
+                        chat.getRecycler().scrollToPosition(chat.getChatList().size - 1)
+                    }
+                }
+            }
+        }
 
 
         val datos = MutableList(1){
@@ -59,6 +104,27 @@ class gameActivity : AppCompatActivity() {
         person.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         person.addItemDecoration(DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL))
         person.adapter=adaptador
+
+    }
+
+    private fun enviarMensajes(){
+        print("Entre a enviar mensaje")
+        /*SocketHandler.setSocket()
+        SocketHandler.establishConnection()
+        val mSocket = SocketHandler.getSocket()*/
+
+        val data: JSONObject = JSONObject()
+        try {
+            data.put("username", chat.getChatList().last().userName)
+            data.put("chatId", chat.getChatList().last().roomName)
+            data.put("message",chat.getChatList().last().messageContent)
+        } catch (e: JSONException) {
+            Log.d("Error", e.toString())
+        }
+        print("Mando al socket")
+        print(data.toString())
+        mSocket.emit("newMessage", data)
+
 
     }
 }

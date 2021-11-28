@@ -41,24 +41,21 @@ class ChatAdapter(val context: Context, val chatList: ArrayList<Message>): Recyc
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val messageData  = chatList[position]
         val content = messageData.messageContent
-        val viewType = messageData.viewType
 
-        when(viewType) {
+        when(messageData.viewType) {
 
             CHAT_USUARIO -> {
-                holder.message.setText(content)
+                holder.message.text = content
             }
             CHAT_RIVAL ->{
-                holder.message.setText(content)
+                holder.message.text = content
             }
 
         }
 
     }
     class ChatViewHolder(itemView : View):  RecyclerView.ViewHolder(itemView) {
-        val userName = itemView.findViewById<TextView>(R.id.username)
-        val message = itemView.findViewById<TextView>(R.id.message)
-        val text = itemView.findViewById<TextView>(R.id.text)
+        val message = itemView.findViewById(R.id.mensaje) as TextView
     }
 
 }
