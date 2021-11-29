@@ -31,6 +31,13 @@
                 android:text="Adivinar Personaje"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/miPersonaje"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mi Personaje"/>
+
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
