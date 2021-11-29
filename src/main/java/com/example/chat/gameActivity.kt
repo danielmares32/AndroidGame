@@ -33,11 +33,13 @@ class gameActivity : AppCompatActivity() {
     private lateinit var miPersonaje: Button
     private lateinit var username: String
     private lateinit var chatId: String
+    private lateinit var personaje: String
     private val mSocket = SocketHandler.getSocket()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.game_activity)
+
         person = findViewById(R.id.Personaje)
         chat = findViewById(R.id.chat)
         miPersonaje = findViewById(R.id.miPersonaje)
@@ -45,6 +47,8 @@ class gameActivity : AppCompatActivity() {
         username = intent.getStringExtra("username")!!
         chatId = intent.getStringExtra("roomId")!!
         chat.setUserName("Rival: "+username)
+
+        setMiPersonajeApi()
 
         chat.getLblsend().setOnClickListener {
             if(chat.getMensaje().text.toString() != ""){
@@ -57,8 +61,9 @@ class gameActivity : AppCompatActivity() {
                 chat.getMensaje().text = ""
             }
         }
+
         miPersonaje.setOnClickListener {
-            getMiPersonajeApi()
+            getMiPersonaje(personaje)
         }
         SocketHandler.setSocket()
         SocketHandler.establishConnection()
@@ -80,7 +85,6 @@ class gameActivity : AppCompatActivity() {
                             )
                         )
                         val adapter = ChatAdapter(this, chat.getChatList())
-                        //chat.getRecycler().setHasFixedSize(true)
                         chat.getRecycler().layoutManager = LinearLayoutManager(this)
                         chat.getRecycler().adapter = adapter
                         chat.getRecycler().scrollToPosition(chat.getChatList().size - 1)
@@ -96,7 +100,7 @@ class gameActivity : AppCompatActivity() {
         datos.add(Personaje(R.drawable.ashketchum.toString(),"Ash Ketchum"))
         datos.add(Personaje(R.drawable.bigboss.toString(),"Big Boss (Snake)"))
         datos.add(Personaje(R.drawable.hunter.toString(),"Cazador"))
-        //datos.add(Personaje(R.drawable.sumire.toString(),"Sumire"))
+        datos.add(Personaje(R.drawable.samus.toString(),"Samus"))
         //datos.add(Personaje(R.drawable.vergil.toString(),"Vergil"))
         datos.add(Personaje(R.drawable.yoshi.toString(),"Yoshi"))
         datos.add(Personaje(R.drawable.vader.toString(),"Vader"))
@@ -104,14 +108,14 @@ class gameActivity : AppCompatActivity() {
         datos.add(Personaje(R.drawable.masterchief.toString(),"Master Chief"))
         datos.add(Personaje(R.drawable.mario.toString(),"Mario"))
         //datos.add(Personaje(R.drawable.lady_maria_bloodborne.toString(),"Lady Maria"))
-        //datos.add(Personaje(R.drawable.joker_persona5.toString(),"Joker"))
+        datos.add(Personaje(R.drawable.joker_p5.toString(),"Joker"))
         datos.add(Personaje(R.drawable.kratos.toString(),"Kratos"))
         datos.add(Personaje(R.drawable.a2_nier_automata.toString(),"A2"))
         datos.add(Personaje(R.drawable.batman.toString(),"Batman"))
         datos.add(Personaje(R.drawable.dva.toString(),"D.Va"))
         datos.add(Personaje(R.drawable.ghost.toString(),"Ghost"))
         datos.add(Personaje(R.drawable.gwen.toString(),"Gwen"))
-        //datos.add(Personaje(R.drawable.haru_persona5.toString(),"Haru"))
+        datos.add(Personaje(R.drawable.haru_p5.toString(),"Haru"))
         datos.add(Personaje(R.drawable.jinx.toString(),"Powder"))
 
         val adaptador= AdaptadorPersonaje(datos){
@@ -153,20 +157,21 @@ class gameActivity : AppCompatActivity() {
         val imageMiPersonaje: ImageView = view.findViewById(R.id.PImagen)
         print(R.drawable.yoshi.toString())
         imageMiPersonaje.background = when(personaje){
+            "a2"->ResourcesCompat.getDrawable(resources, R.drawable.a2_nier_automata, null)
             "ash"->ResourcesCompat.getDrawable(resources, R.drawable.ashketchum, null)
             "batman"->ResourcesCompat.getDrawable(resources, R.drawable.batman, null)
             "bigboss"->ResourcesCompat.getDrawable(resources, R.drawable.bigboss, null)
             "chrono"->ResourcesCompat.getDrawable(resources, R.drawable.chrono, null)
-            "cortana_halo"->ResourcesCompat.getDrawable(resources, R.drawable.cortana_halo, null)
+            "cortana"->ResourcesCompat.getDrawable(resources, R.drawable.cortana_halo, null)
             "dva"->ResourcesCompat.getDrawable(resources, R.drawable.dva, null)
-            "futaba_p5"->ResourcesCompat.getDrawable(resources, R.drawable.futaba_p5, null)
+            "futaba"->ResourcesCompat.getDrawable(resources, R.drawable.futaba_p5, null)
             "ghost"->ResourcesCompat.getDrawable(resources, R.drawable.ghost, null)
             "gwen"->ResourcesCompat.getDrawable(resources, R.drawable.gwen, null)
-            "haru_p5"->ResourcesCompat.getDrawable(resources, R.drawable.haru_p5, null)
+            "haru"->ResourcesCompat.getDrawable(resources, R.drawable.haru_p5, null)
             "hunter"->ResourcesCompat.getDrawable(resources, R.drawable.hunter, null)
             "jinx"->ResourcesCompat.getDrawable(resources, R.drawable.jinx, null)
-            "joker_p5"->ResourcesCompat.getDrawable(resources, R.drawable.joker_p5, null)
-            "kasumi_p5"->ResourcesCompat.getDrawable(resources, R.drawable.kasumi_p5, null)
+            "joker"->ResourcesCompat.getDrawable(resources, R.drawable.joker_p5, null)
+            "kasumi"->ResourcesCompat.getDrawable(resources, R.drawable.kasumi_p5, null)
             "kratos"->ResourcesCompat.getDrawable(resources, R.drawable.kratos, null)
             "mario"->ResourcesCompat.getDrawable(resources, R.drawable.mario, null)
             "masterchief"->ResourcesCompat.getDrawable(resources, R.drawable.masterchief, null)
@@ -183,7 +188,7 @@ class gameActivity : AppCompatActivity() {
         alertadd.show()
     }
 
-    private fun getMiPersonajeApi(){
+    private fun setMiPersonajeApi(){
         val url: String = "http://10.0.2.2:3000/getPersonaje"
         val requestQueue = Volley.newRequestQueue(this)
         val postData: JSONObject = JSONObject()
@@ -204,8 +209,7 @@ class gameActivity : AppCompatActivity() {
             { response ->
                 println(response)
                 println(JSONObject(response.toString()).get("personaje"))
-                val personaje = JSONObject(response.toString()).get("personaje")
-                getMiPersonaje(personaje.toString())
+                personaje = JSONObject(response.toString()).get("personaje").toString()
             }
         ) { error -> error.printStackTrace() }
 
