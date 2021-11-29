@@ -112,13 +112,27 @@ app.post('/joinGame',(req,res)=>{
   });
 });
 
+app.post('/getPersonaje', (req,res)=>{
+  let username = req.body.username;
+  let chatId = req.body.chatId;
+  console.log(req.body);
+  conn.query(`SELECT asignacion_personaje(${chatId},'${username}') as personaje`, (err, result)=>{
+    if(err) throw err;
+    console.log(result[0]);
+    conn.query(`SELECT * FROM personajes WHERE id = '${result[0].personaje}'`, (err2, result2)=>{
+      if(err2) throw err2;
+      console.log(result2[0]);
+      res.send(`{"personaje":"${result2[0].nombre}"}`);
+    });
+  });
+});
 
 var server = app.listen(3000);
 console.log("app running at http://localhost:3000");
 
 var io = socketio(server);
 //socket.io connection for the chat
-var users = Array()
+var users = new Map();
 io.on('connection', (socket)=>{
   var user = '';
   console.log("New chat connection: "+ socket.id);
@@ -129,10 +143,12 @@ io.on('connection', (socket)=>{
     socket.join(`${chatId}`);
     console.log(`Username : ${username} joined Chat ID : ${chatId}`);
     user = username;
-    users.push(username);
+    users.set(username,chatId);
     console.log(users);
-    for (const u of users) {
-      io.to(`${chatId}`).emit('newUserToChatRoom',u);
+    for (const [key, value] of users) {
+      console.log(key + ' = ' + value)
+      if(value == chatId)
+        io.to(`${chatId}`).emit('newUserToChatRoom',key);
     }
     
   });
