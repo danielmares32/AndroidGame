@@ -99,6 +99,18 @@ class gameActivity : AppCompatActivity() {
             }
         }
 
+        mSocket.on("derrota"){ args ->
+            if(args[0] != null){
+                val res = args[0] as String
+                runOnUiThread {
+                    if(res != username) {
+                        val intent = Intent(this, derrota_activity()::class.java)
+                        startActivity(intent)
+                    }
+                }
+            }
+
+        }
 
         val datos = MutableList(1){
             Personaje(R.drawable.chrono.toString(),"Chrono")
@@ -288,8 +300,22 @@ class gameActivity : AppCompatActivity() {
                 println(JSONObject(response.toString()).get("result"))
                 if(JSONObject(response.toString()).get("result") == "si"){
                     //Ir a pantalla de victoria
+                    val data: JSONObject = JSONObject()
+                    try {
+                        data.put("user", username)
+                        data.put("chatId", chatId)
+                    } catch (e: JSONException) {
+                        Log.d("Error", e.toString())
+                    }
+                    print("Mando al socket")
+                    print(data.toString())
+                    mSocket.emit("victoria", data)
+                    val intent = Intent(this,pantalla_victoria()::class.java)
+                    startActivity(intent)
                 } else {
                     //Ir a pantalla de derrota
+                    val intent = Intent(this,derrota_activity()::class.java)
+                    startActivity(intent)
                 }
             }
         ) { error -> error.printStackTrace() }

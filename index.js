@@ -220,6 +220,17 @@ io.on('connection', (socket)=>{
     
   });
 
+  socket.on('victoria',(data)=>{
+    console.log(data)
+    let username = data.user;
+    let chatId = data.chatId;
+    for (const [key, value] of users) {
+      console.log(key + ' = ' + value)
+      if(value == chatId)
+        io.to(`${chatId}`).emit('derrota',username);
+    }
+  });
+
   socket.on('leave', (data)=>{
     let chat_data = JSON.parse(data);
     let username = chat_data.user;
