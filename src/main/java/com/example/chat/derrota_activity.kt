@@ -9,10 +9,10 @@ class derrota_activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_derrota)
-
+        val username = intent.getSerializableExtra("usernameGlobal") as String
         val continuar = findViewById<TextView>(R.id.finalizar)
         continuar.setOnClickListener {
-            val intent= Intent(this,menu_activity::class.java)
+            val intent= Intent(this,menu_activity::class.java).apply { putExtra("username",username) }
             startActivity(intent)
         }
     }

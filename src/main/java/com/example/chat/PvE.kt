@@ -1,5 +1,8 @@
 package com.example.chat
 
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +12,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import io.socket.client.Socket
 import org.json.JSONException
 import org.json.JSONObject
@@ -17,19 +23,22 @@ import kotlin.system.exitProcess
 
 class PvE : AppCompatActivity() {
     private lateinit var person: RecyclerView
-    private lateinit var chat: ChatActivity
-    private lateinit var  mSocket: Socket
     private lateinit var salir:Button
     private var pregunta : String = ""
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private lateinit var personaje: String
+    private lateinit var respuesta: TextView
+    private lateinit var btnAdivinar: Button
+    private lateinit var username: String
 
-        SocketHandler.setSocket()
-        SocketHandler.establishConnection()
-        mSocket=SocketHandler.getSocket()
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pv_e)
+        setPersonaje()
         salir=findViewById(R.id.sal)
         person = findViewById(R.id.Personaje)
+        respuesta = findViewById(R.id.respuesta)
+        btnAdivinar = findViewById(R.id.adivinar)
+        username = intent.getSerializableExtra("username") as String
 
         salir.setOnClickListener{
             exitProcess(0)
@@ -41,7 +50,7 @@ class PvE : AppCompatActivity() {
         datos.add(Personaje(R.drawable.ashketchum.toString(),"Ash Ketchum"))
         datos.add(Personaje(R.drawable.cortana_halo.toString(),"Cortana"))
         datos.add(Personaje(R.drawable.bigboss.toString(),"Snake"))
-        datos.add(Personaje(R.drawable.hunter.toString(),"Cazador"))
+        datos.add(Personaje(R.drawable.hunter.toString(),"Hunter"))
         datos.add(Personaje(R.drawable.samus.toString(),"Samus"))
         datos.add(Personaje(R.drawable.futaba_p5.toString(),"Futaba"))
         datos.add(Personaje(R.drawable.steve.toString(),"Steve"))
@@ -62,6 +71,46 @@ class PvE : AppCompatActivity() {
         datos.add(Personaje(R.drawable.toad.toString(),"Toad"))
         datos.add(Personaje(R.drawable.kasumi_p5.toString(),"Kasumi"))
 
+        var nombres= mutableSetOf<CharSequence>()
+        for (dato in datos){
+            nombres.add(dato.Nom)
+        }
+        val nombresArray = nombres.toTypedArray()
+        nombresArray.sort()
+        btnAdivinar.setOnClickListener {
+            val dialog = AlertDialog.Builder(this)
+            dialog.setTitle("Seleccione el personaje a adivinar")
+            dialog.setItems(nombresArray,
+                DialogInterface.OnClickListener { dialog, position ->
+                    Toast.makeText(
+                        applicationContext,
+                        "selected Item:$position, value:${nombresArray[position].toString().lowercase()}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    val builder = AlertDialog.Builder(this)
+                    builder.setMessage("Selecciono a ${nombresArray[position]}, desea continuar?")
+                        .setPositiveButton("Si",
+                            DialogInterface.OnClickListener { dialog2, id ->
+                                adivinar(nombresArray[position].toString().lowercase())
+                            })
+                        .setNegativeButton("No",
+                            DialogInterface.OnClickListener { dialog2, id ->
+                                // User cancelled the dialog
+                            })
+                    // Create the AlertDialog object and return it
+                    builder.create().show()
+                })
+            dialog.setPositiveButton(
+                "Cerrar"
+            ) { dialog, which ->
+                dialog.dismiss()
+            }
+            val alert = dialog.create()
+            alert.show()
+        }
+
+
+
         val adaptador= AdaptadorPersonaje(datos){
             //val intent = Intent (MainActivity@this,)
             Toast.makeText(this,"Personaje escogido: ${it.Nom}", Toast.LENGTH_SHORT).show()
@@ -75,7 +124,7 @@ class PvE : AppCompatActivity() {
         val preguntar = findViewById<Button>(R.id.btnPreguntar)
         preguntar.setOnClickListener {
             Toast.makeText(this, "pregunta:"+pregunta, Toast.LENGTH_SHORT).show()
-
+            enviarPregunta()
         }
 
 
@@ -244,10 +293,88 @@ class PvE : AppCompatActivity() {
 
         //fin de codigo de spinners
 
+    }
+
+    private fun enviarPregunta(){
+        val url: String = "http://10.0.2.2:3000/respuestas"
+        val requestQueue = Volley.newRequestQueue(this)
+        val postData: JSONObject = JSONObject()
+        try {
+            postData.put("pregunta",pregunta)
+            postData.put("id_personaje", personaje)
+        } catch (e: JSONException){
+            Log.d("Error",e.toString())
+        }
 
 
+        Log.d("Data", postData.toString())
+
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.POST,
+            url,
+            postData,
+            { response ->
+                println(response)
+                println(JSONObject(response.toString()).get("respuesta"))
+                val res = JSONObject(response.toString()).get("respuesta")
+                respuesta.text = res.toString().uppercase()
+            }
+        ) { error -> error.printStackTrace() }
+
+        requestQueue.add(jsonObjectRequest)
+    }
+
+    private fun setPersonaje(){
+        val url: String = "http://10.0.2.2:3000/getPersonajeCPU"
+        val requestQueue = Volley.newRequestQueue(this)
+
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.POST,
+            url,
+            null,
+            { response ->
+                println(response)
+                println(JSONObject(response.toString()).get("id_personaje"))
+                personaje = JSONObject(response.toString()).get("id_personaje").toString()
+            }
+        ) { error -> error.printStackTrace() }
+
+        requestQueue.add(jsonObjectRequest)
+    }
+
+    private fun adivinar(personajeAdivinado: String){
+        val url: String = "http://10.0.2.2:3000/respuestas"
+        val requestQueue = Volley.newRequestQueue(this)
+        val postData: JSONObject = JSONObject()
+        try {
+            postData.put("pregunta","¿es ${personajeAdivinado}?")
+            postData.put("id_personaje", personaje)
+        } catch (e: JSONException){
+            Log.d("Error",e.toString())
+        }
 
 
+        Log.d("Data", postData.toString())
+
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.POST,
+            url,
+            postData,
+            { response ->
+                println(response)
+                println(JSONObject(response.toString()).get("respuesta"))
+                val res = JSONObject(response.toString()).get("respuesta")
+                if(res == "si"){
+                    val intent = Intent(this,pantalla_victoria()::class.java).apply { putExtra("usernameGlobal",username) }
+                    startActivity(intent)
+                } else{
+                    val intent = Intent(this,derrota_activity()::class.java).apply { putExtra("usernameGlobal",username) }
+                    startActivity(intent)
+                }
+            }
+        ) { error -> error.printStackTrace() }
+
+        requestQueue.add(jsonObjectRequest)
     }
 
 }

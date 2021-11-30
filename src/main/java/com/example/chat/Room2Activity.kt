@@ -17,6 +17,7 @@ class Room2Activity : AppCompatActivity() {
 
     private lateinit var roomCode:EditText
     private lateinit var playBtn:Button
+    private lateinit var usernameGlobal: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +26,7 @@ class Room2Activity : AppCompatActivity() {
         roomCode = findViewById(R.id.roomCode)
         playBtn = findViewById(R.id.playBtn)
         val username: String? = intent.getStringExtra("username")
+        this.usernameGlobal = intent.getSerializableExtra("username") as String
 
         playBtn.setOnClickListener {
             if(roomCode.text.isNotEmpty()){
@@ -88,6 +90,7 @@ class Room2Activity : AppCompatActivity() {
                         val intent = Intent(this, gameActivity()::class.java).apply {
                             putExtra("username", player2)
                             putExtra("roomId",roomCode)
+                            putExtra("usernameGlobal",usernameGlobal)
                         }
                         startActivity(intent)
                     }

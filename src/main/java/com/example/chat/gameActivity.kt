@@ -36,6 +36,7 @@ class gameActivity : AppCompatActivity() {
     private lateinit var btnAdivinar: Button
     private lateinit var username: String
     private lateinit var chatId: String
+    private lateinit var usernameGLobal: String
     private lateinit var personaje: String
     private val mSocket = SocketHandler.getSocket()
 
@@ -48,6 +49,7 @@ class gameActivity : AppCompatActivity() {
         miPersonaje = findViewById(R.id.miPersonaje)
         btnAdivinar = findViewById(R.id.btnAdivinar)
 
+        this.usernameGLobal = intent.getStringExtra("usernameGlobal")!!
         username = intent.getStringExtra("username")!!
         chatId = intent.getStringExtra("roomId")!!
         chat.setUserName("Rival: "+username)
@@ -104,7 +106,7 @@ class gameActivity : AppCompatActivity() {
                 val res = args[0] as String
                 runOnUiThread {
                     if(res != username) {
-                        val intent = Intent(this, derrota_activity()::class.java)
+                        val intent = Intent(this, derrota_activity()::class.java).apply { putExtra("usernameGlobal",usernameGLobal) }
                         startActivity(intent)
                     }
                 }
@@ -118,7 +120,7 @@ class gameActivity : AppCompatActivity() {
         datos.add(Personaje(R.drawable.ashketchum.toString(),"Ash Ketchum"))
         datos.add(Personaje(R.drawable.cortana_halo.toString(),"Cortana"))
         datos.add(Personaje(R.drawable.bigboss.toString(),"Snake"))
-        datos.add(Personaje(R.drawable.hunter.toString(),"Cazador"))
+        datos.add(Personaje(R.drawable.hunter.toString(),"Hunter"))
         datos.add(Personaje(R.drawable.samus.toString(),"Samus"))
         datos.add(Personaje(R.drawable.futaba_p5.toString(),"Futaba"))
         datos.add(Personaje(R.drawable.steve.toString(),"Steve"))
@@ -310,11 +312,11 @@ class gameActivity : AppCompatActivity() {
                     print("Mando al socket")
                     print(data.toString())
                     mSocket.emit("victoria", data)
-                    val intent = Intent(this,pantalla_victoria()::class.java)
+                    val intent = Intent(this,pantalla_victoria()::class.java).apply { putExtra("usernameGlobal",usernameGLobal) }
                     startActivity(intent)
                 } else {
                     //Ir a pantalla de derrota
-                    val intent = Intent(this,derrota_activity()::class.java)
+                    val intent = Intent(this,derrota_activity()::class.java).apply { putExtra("usernameGlobal",usernameGLobal) }
                     startActivity(intent)
                 }
             }

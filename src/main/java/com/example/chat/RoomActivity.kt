@@ -17,6 +17,7 @@ class RoomActivity :  AppCompatActivity() {
 
     private lateinit var gameId: String;
     private lateinit var gameIdLbl: TextView
+    private lateinit var usernameGlobal: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +26,7 @@ class RoomActivity :  AppCompatActivity() {
         gameIdLbl = findViewById(R.id.roomCode)
 
         val username = intent.getSerializableExtra("username") as String
+        this.usernameGlobal = intent.getSerializableExtra("username") as String
         crearPartida(username)
         Handler().postDelayed({
             //doSomethingHere()
@@ -87,6 +89,7 @@ class RoomActivity :  AppCompatActivity() {
                         val intent = Intent(this, gameActivity()::class.java).apply {
                             putExtra("username", player2)
                             putExtra("roomId", roomCode)
+                            putExtra("usernameGlobal",usernameGlobal)
                         }
                         startActivity(intent)
                     }

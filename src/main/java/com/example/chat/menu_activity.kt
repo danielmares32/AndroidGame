@@ -43,12 +43,12 @@ class menu_activity : AppCompatActivity() {
         }
 
         pvpNew.setOnClickListener {
-            val intent = Intent(this,RoomActivity()::class.java).apply { putExtra("username",id_jugador) }
+            val intent = Intent(this,RoomActivity()::class.java).apply { putExtra("username",id_jugador);putExtra("usernameGlobal",id_jugador)  }
             startActivity(intent)
         }
 
         pvpJoin.setOnClickListener {
-            val intent = Intent(this,Room2Activity()::class.java).apply { putExtra("username",id_jugador) }
+            val intent = Intent(this,Room2Activity()::class.java).apply { putExtra("username",id_jugador);putExtra("usernameGlabal",id_jugador) }
             startActivity(intent)
         }
 

@@ -10,8 +10,9 @@ class pantalla_victoria : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pantalla_victoria)
         val continuar = findViewById<TextView>(R.id.finalizar)
+        val username = intent.getSerializableExtra("usernameGlobal") as String
         continuar.setOnClickListener {
-            val intent= Intent(this,menu_activity::class.java)
+            val intent= Intent(this,menu_activity::class.java).apply { putExtra("username",username) }
             startActivity(intent)
         }
     }

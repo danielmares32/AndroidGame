@@ -141,6 +141,15 @@ app.post('/adivinarPersonaje', (req, res)=>{
 
 });
 
+app.post('/getPersonajeCPU', (req, res)=>{
+  conn.query(`CALL asignacion_personaje`, (err, result)=>{
+    if(err) throw err;
+    console.log(result[0][0]);
+    console.log(`{"id_personaje":"${result[0][0].personaje_asignado}"}`)
+    res.send(`{"id_personaje":"${result[0][0].personaje_asignado}"}`);
+  })
+});
+
 app.post('/respuestas',(req,res)=>{
 
   let name_pregunta = req.body.pregunta;
