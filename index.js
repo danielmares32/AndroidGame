@@ -113,7 +113,7 @@ app.post('/joinGame',(req,res)=>{
 });
 
 app.post('/getPersonaje', (req,res)=>{
-  let username = req.body.username;
+  let username = req.body.usuario;
   let chatId = req.body.chatId;
   console.log(req.body);
   conn.query(`SELECT asignacion_personaje(${chatId},'${username}') as personaje`, (err, result)=>{
@@ -126,6 +126,17 @@ app.post('/getPersonaje', (req,res)=>{
     });
   });
 });
+
+app.post('/adivinarPersonaje', (req, res)=>{
+  let username = req.body.usuario;
+  let chatId = req.body.chatId;
+  let personaje = req.body.personaje;
+  console.log(req.body);
+  conn.query(`SELECT * FROM partidas WHERE id_game = '${chatId}'`, (err, result)=>{
+    
+  });
+
+})
 
 var server = app.listen(3000);
 console.log("app running at http://localhost:3000");

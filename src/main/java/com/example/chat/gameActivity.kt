@@ -27,10 +27,13 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 
 
+
+
 class gameActivity : AppCompatActivity() {
     private lateinit var person: RecyclerView
     private lateinit var chat: ChatActivity
     private lateinit var miPersonaje: Button
+    private lateinit var btnAdivinar: Button
     private lateinit var username: String
     private lateinit var chatId: String
     private lateinit var personaje: String
@@ -43,6 +46,7 @@ class gameActivity : AppCompatActivity() {
         person = findViewById(R.id.Personaje)
         chat = findViewById(R.id.chat)
         miPersonaje = findViewById(R.id.miPersonaje)
+        btnAdivinar = findViewById(R.id.btnAdivinar)
 
         username = intent.getStringExtra("username")!!
         chatId = intent.getStringExtra("roomId")!!
@@ -65,6 +69,8 @@ class gameActivity : AppCompatActivity() {
         miPersonaje.setOnClickListener {
             getMiPersonaje(personaje)
         }
+
+
         SocketHandler.setSocket()
         SocketHandler.establishConnection()
 
@@ -98,16 +104,17 @@ class gameActivity : AppCompatActivity() {
             Personaje(R.drawable.chrono.toString(),"Chrono")
         }
         datos.add(Personaje(R.drawable.ashketchum.toString(),"Ash Ketchum"))
+        datos.add(Personaje(R.drawable.cortana_halo.toString(),"Cortana"))
         datos.add(Personaje(R.drawable.bigboss.toString(),"Big Boss (Snake)"))
         datos.add(Personaje(R.drawable.hunter.toString(),"Cazador"))
         datos.add(Personaje(R.drawable.samus.toString(),"Samus"))
-        //datos.add(Personaje(R.drawable.vergil.toString(),"Vergil"))
+        datos.add(Personaje(R.drawable.futaba_p5.toString(),"Futaba"))
+        datos.add(Personaje(R.drawable.steve.toString(),"Steve"))
         datos.add(Personaje(R.drawable.yoshi.toString(),"Yoshi"))
         datos.add(Personaje(R.drawable.vader.toString(),"Vader"))
         datos.add(Personaje(R.drawable.pacman.toString(),"Pacman"))
         datos.add(Personaje(R.drawable.masterchief.toString(),"Master Chief"))
         datos.add(Personaje(R.drawable.mario.toString(),"Mario"))
-        //datos.add(Personaje(R.drawable.lady_maria_bloodborne.toString(),"Lady Maria"))
         datos.add(Personaje(R.drawable.joker_p5.toString(),"Joker"))
         datos.add(Personaje(R.drawable.kratos.toString(),"Kratos"))
         datos.add(Personaje(R.drawable.a2_nier_automata.toString(),"A2"))
@@ -117,6 +124,35 @@ class gameActivity : AppCompatActivity() {
         datos.add(Personaje(R.drawable.gwen.toString(),"Gwen"))
         datos.add(Personaje(R.drawable.haru_p5.toString(),"Haru"))
         datos.add(Personaje(R.drawable.jinx.toString(),"Powder"))
+        datos.add(Personaje(R.drawable.toad.toString(),"Toad"))
+        datos.add(Personaje(R.drawable.kasumi_p5.toString(),"Kasumi"))
+
+
+        var nombres= mutableSetOf<CharSequence>()
+        for (dato in datos){
+            nombres.add(dato.Nom)
+        }
+        val nombresArray = nombres.toTypedArray()
+        nombresArray.sort()
+        btnAdivinar.setOnClickListener {
+            val dialog = AlertDialog.Builder(this)
+            dialog.setTitle("Seleccione el personaje a adivinar")
+            dialog.setItems(nombresArray,
+                DialogInterface.OnClickListener { dialog, position ->
+                    Toast.makeText(
+                        applicationContext,
+                        "selected Item:$position",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                })
+            dialog.setPositiveButton(
+                "Cerrar"
+            ) { dialog, which ->
+                dialog.dismiss()
+            }
+            val alert = dialog.create()
+            alert.show()
+        }
 
         val adaptador= AdaptadorPersonaje(datos){
             //val intent = Intent (MainActivity@this,)
