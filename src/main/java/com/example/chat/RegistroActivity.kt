@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
@@ -20,6 +21,7 @@ class RegistroActivity : AppCompatActivity() {
     private lateinit var password: EditText
     private lateinit var passwordConfirm: EditText
     private lateinit var signUp: Button
+    private lateinit var status:TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +33,7 @@ class RegistroActivity : AppCompatActivity() {
         password = findViewById(R.id.password)
         passwordConfirm =findViewById(R.id.passwordConfirm)
         signUp = findViewById(R.id.signup)
+        status= findViewById(R.id.stat)
 
         signUp.setOnClickListener {
             if(password.text.toString() != passwordConfirm.text.toString()){
@@ -52,6 +55,9 @@ class RegistroActivity : AppCompatActivity() {
             postData.put("country",country)
             postData.put("password", password)
         } catch (e: JSONException){
+            status.visibility=TextView.VISIBLE
+            status.text="${e.toString()}"
+
             Log.d("Error",e.toString())
         }
 
@@ -62,8 +68,14 @@ class RegistroActivity : AppCompatActivity() {
             Request.Method.POST,
             url,
             postData,
-            { response -> println(response) }
-        ) { error -> error.printStackTrace() }
+            {   response -> println("Respuesta a registro: "+response)
+                status.visibility=TextView.VISIBLE
+                status.text="${response["message"].toString()}"
+                status.visibility=TextView.VISIBLE
+            }
+        ) { error -> error.printStackTrace()
+            status.visibility=TextView.VISIBLE
+        }
 
         requestQueue.add(jsonObjectRequest)
     }
