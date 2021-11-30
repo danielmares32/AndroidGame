@@ -38,7 +38,8 @@ class menu_activity : AppCompatActivity() {
 
 
         individual.setOnClickListener {
-
+            val intent = Intent(this,PvE()::class.java).apply { putExtra("username",id_jugador) }
+            startActivity(intent)
         }
 
         pvpNew.setOnClickListener {
