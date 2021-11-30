@@ -7,7 +7,9 @@
     tools:context=".gameActivity"
     android:orientation="horizontal"
     android:background="@drawable/tablero">
-
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,29 +17,97 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:orientation="horizontal"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:orientation="horizontal"
             android:padding="5dp">
+
+
+            <Button
+                android:id="@+id/sal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Salir" />
+
+            <Spinner
+                android:id="@+id/Categorias"
+                android:layout_width="111dp"
+                android:layout_height="50dp"
+                android:textAlignment="center" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <Spinner
+                    android:id="@+id/Juego"
+                    android:layout_width="111dp"
+                    android:layout_height="50dp" />
+
+                <Spinner
+                    android:id="@+id/genero"
+                    android:layout_width="111dp"
+                    android:layout_height="50dp" />
+
+                <Spinner
+                    android:id="@+id/rol"
+                    android:layout_width="111dp"
+                    android:layout_height="50dp" />
+
+                <Spinner
+                    android:id="@+id/letra_nombre"
+                    android:layout_width="111dp"
+                    android:layout_height="50dp" />
+
+                <Spinner
+                    android:id="@+id/color_cabello"
+                    android:layout_width="111dp"
+                    android:layout_height="50dp" />
+
+                <Spinner
+                    android:id="@+id/tipo_cabello"
+                    android:layout_width="111dp"
+                    android:layout_height="50dp" />
+
+                <Spinner
+                    android:id="@+id/color_piel"
+                    android:layout_width="111dp"
+                    android:layout_height="50dp"/>
+
+                <Spinner
+                    android:id="@+id/vestimenta"
+                    android:layout_width="111dp"
+                    android:layout_height="50dp" />
+
+                <Spinner
+                    android:id="@+id/nombre"
+                    android:layout_width="111dp"
+                    android:layout_height="50dp" />
+
+                <Spinner
+                    android:id="@+id/accesorio"
+                    android:layout_width="111dp"
+                    android:layout_height="50dp"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnPreguntar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Preguntar"
+                android:textStyle="bold" />
+
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/sal"
-                android:text="Salir"/>
-
-            <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:text="Adivinar Personaje"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:text="Adivinar Personaje" />
 
             <Button
                 android:id="@+id/miPersonaje"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mi Personaje"/>
+                android:text="Mi Personaje" />
 
         </LinearLayout>
 
@@ -47,12 +117,12 @@
             android:id="@+id/Personaje"
             android:padding="15dp">
         </androidx.recyclerview.widget.RecyclerView>
+        <com.example.chat.ChatActivity
+            android:id="@+id/chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
-
-    <com.example.chat.ChatActivity
-        android:id="@+id/chat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    </ScrollView>
 
 </LinearLayout>
