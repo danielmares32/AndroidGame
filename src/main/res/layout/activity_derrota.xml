@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".derrota_activity"
+    android:orientation="vertical"
+    android:background="@drawable/derrota1">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="390dp"
+            android:layout_height="130dp"
+            android:text="DERROTA!"
+            android:textAlignment="center"
+            android:textSize="100sp"
+            android:layout_marginTop="130dp"
+            android:layout_marginLeft="50dp"
+            android:fontFamily="@font/dk_pundak"
+            android:textStyle="bold"
+            android:textColor="@color/rojo"/>
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="50dp"
+            android:src="@drawable/hunter"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/finalizar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="TOCA A QUÍ PARA CONTINUAR!"
+        android:textSize="30sp"
+        android:textAlignment="center"/>
+
+    <!--- <a href='https://www.freepik.es/vectores/fondo'>Vector de Fondo creado por freepik - www.freepik.es</a>-->
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>
