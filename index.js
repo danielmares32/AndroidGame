@@ -139,7 +139,60 @@ app.post('/adivinarPersonaje', (req, res)=>{
     res.send(`{"result":"${result[0].resultado}"}`);
   });
 
-})
+});
+
+app.post('/respuestas',(req,res)=>{
+
+  let name_pregunta = req.body.pregunta;
+  let personaje_id = req.body.id_personaje
+  console.log(req.body);
+  
+  //con este query obtenemos la descripcion y la categoria de la pregunta
+  conn.query(`SELECT preguntas.categoria,preguntas.descripcion FROM preguntas WHERE preguntas.pregunta='${name_pregunta}'`,(err,result)=>{
+    //inicio del switch dependiendo de la categoria se llama  a la funcion correspondiente
+    switch(result[0].categoria){
+      case "nombre" : conn.query(`SELECT adivinar_nombre(${personaje_id},'${result[0].descripcion}') as respuesta`,(err,result1)=>{
+        res.send(`{"respuesta":"${result1[0].respuesta}"}`);
+      }); break;
+
+      case "nombre_letra" : conn.query(`SELECT adivinar_letra_nombre(${personaje_id},'${result[0].descripcion}') as respuesta`,(err,result2)=>{
+        res.send(`{"respuesta":"${result2[0].respuesta}"}`);
+      }); break;
+    
+      case "color_cabello" : conn.query(`SELECT adivinar_color_cabello(${personaje_id},'${result[0].descripcion}') as respuesta`,(err,result3)=>{
+        res.send(`{"respuesta":"${result3[0].respuesta}"}`);
+      }); break;
+    
+      case "color_vestimenta" : conn.query(`SELECT adivinar_color_vestimenta(${personaje_id},'${result[0].descripcion}') as respuesta`,(err,result4)=>{
+        res.send(`{"respuesta":"${result4[0].respuesta}"}`);
+      }); break;
+    
+      case "tipo_de_cabello" : conn.query(`SELECT adivinar_tipo_cabello(${personaje_id},'${result[0].descripcion}') as respuesta`,(err,result5)=>{
+        res.send(`{"respuesta":"${result5[0].respuesta}"}`);
+      }); break;
+    
+      case "titulo_del_videojuego" : conn.query(`SELECT adivinar_videojuego(${personaje_id},'${result[0].descripcion}') as respuesta`,(err,result6)=>{
+        res.send(`{"respuesta":"${result6[0].respuesta}"}`);
+      }); break;
+    
+      case "genero" : conn.query(`SELECT adivinar_genero(${personaje_id},'${result[0].descripcion}') as respuesta`,(err,result7)=>{
+        res.send(`{"respuesta":"${result7[0].respuesta}"}`);
+      }); break;
+    
+      case "rol" : conn.query(`SELECT adivinar_rol(${personaje_id},'${result[0].descripcion}') as respuesta`,(err,result8)=>{
+        res.send(`{"respuesta":"${result8[0].respuesta}"}`);
+      }); break;
+    
+      case "accesorio" : conn.query(`SELECT adivinar_accesorio(${personaje_id},'${result[0].descripcion}') as respuesta`,(err,result9)=>{
+        res.send(`{"respuesta":"${result9[0].respuesta}"}`);
+      }); break;
+    
+    }
+    //fin del switch
+  });
+  
+});
+
 
 var server = app.listen(3000);
 console.log("app running at http://localhost:3000");
