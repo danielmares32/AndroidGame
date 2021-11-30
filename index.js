@@ -132,8 +132,11 @@ app.post('/adivinarPersonaje', (req, res)=>{
   let chatId = req.body.chatId;
   let personaje = req.body.personaje;
   console.log(req.body);
-  conn.query(`SELECT * FROM partidas WHERE id_game = '${chatId}'`, (err, result)=>{
-    
+  console.log(`SELECT adivinar_personaje('${username}',${chatId},'${personaje}') as resultado`);
+  conn.query(`SELECT adivinar_personaje('${username}',${chatId},'${personaje}') as resultado`, (err, result)=>{
+    if(err) throw err;
+    console.log(result[0]);
+    res.send(`{"result":"${result[0].resultado}"}`);
   });
 
 })

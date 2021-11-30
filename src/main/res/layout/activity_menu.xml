@@ -72,8 +72,8 @@
             android:id="@+id/btnSalir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="300dp"
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginTop="5dp"
             android:backgroundTint="@color/azul"
             android:text="SALIR"/>
 

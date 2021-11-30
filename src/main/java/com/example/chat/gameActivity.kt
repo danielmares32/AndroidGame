@@ -105,7 +105,7 @@ class gameActivity : AppCompatActivity() {
         }
         datos.add(Personaje(R.drawable.ashketchum.toString(),"Ash Ketchum"))
         datos.add(Personaje(R.drawable.cortana_halo.toString(),"Cortana"))
-        datos.add(Personaje(R.drawable.bigboss.toString(),"Big Boss (Snake)"))
+        datos.add(Personaje(R.drawable.bigboss.toString(),"Snake"))
         datos.add(Personaje(R.drawable.hunter.toString(),"Cazador"))
         datos.add(Personaje(R.drawable.samus.toString(),"Samus"))
         datos.add(Personaje(R.drawable.futaba_p5.toString(),"Futaba"))
@@ -113,13 +113,13 @@ class gameActivity : AppCompatActivity() {
         datos.add(Personaje(R.drawable.yoshi.toString(),"Yoshi"))
         datos.add(Personaje(R.drawable.vader.toString(),"Vader"))
         datos.add(Personaje(R.drawable.pacman.toString(),"Pacman"))
-        datos.add(Personaje(R.drawable.masterchief.toString(),"Master Chief"))
+        datos.add(Personaje(R.drawable.masterchief.toString(),"MasterChief"))
         datos.add(Personaje(R.drawable.mario.toString(),"Mario"))
         datos.add(Personaje(R.drawable.joker_p5.toString(),"Joker"))
         datos.add(Personaje(R.drawable.kratos.toString(),"Kratos"))
         datos.add(Personaje(R.drawable.a2_nier_automata.toString(),"A2"))
         datos.add(Personaje(R.drawable.batman.toString(),"Batman"))
-        datos.add(Personaje(R.drawable.dva.toString(),"D.Va"))
+        datos.add(Personaje(R.drawable.dva.toString(),"DVa"))
         datos.add(Personaje(R.drawable.ghost.toString(),"Ghost"))
         datos.add(Personaje(R.drawable.gwen.toString(),"Gwen"))
         datos.add(Personaje(R.drawable.haru_p5.toString(),"Haru"))
@@ -141,9 +141,21 @@ class gameActivity : AppCompatActivity() {
                 DialogInterface.OnClickListener { dialog, position ->
                     Toast.makeText(
                         applicationContext,
-                        "selected Item:$position",
+                        "selected Item:$position, value:${nombresArray[position].toString().lowercase()}",
                         Toast.LENGTH_SHORT
                     ).show()
+                    val builder = AlertDialog.Builder(this)
+                    builder.setMessage("Selecciono a ${nombresArray[position]}, desea continuar?")
+                        .setPositiveButton("Si",
+                            DialogInterface.OnClickListener { dialog2, id ->
+                                adivinar(nombresArray[position].toString().lowercase())
+                            })
+                        .setNegativeButton("No",
+                            DialogInterface.OnClickListener { dialog2, id ->
+                                // User cancelled the dialog
+                            })
+                    // Create the AlertDialog object and return it
+                    builder.create().show()
                 })
             dialog.setPositiveButton(
                 "Cerrar"
@@ -194,9 +206,9 @@ class gameActivity : AppCompatActivity() {
         print(R.drawable.yoshi.toString())
         imageMiPersonaje.background = when(personaje){
             "a2"->ResourcesCompat.getDrawable(resources, R.drawable.a2_nier_automata, null)
-            "ash"->ResourcesCompat.getDrawable(resources, R.drawable.ashketchum, null)
+            "ash ketchum"->ResourcesCompat.getDrawable(resources, R.drawable.ashketchum, null)
             "batman"->ResourcesCompat.getDrawable(resources, R.drawable.batman, null)
-            "bigboss"->ResourcesCompat.getDrawable(resources, R.drawable.bigboss, null)
+            "snake"->ResourcesCompat.getDrawable(resources, R.drawable.bigboss, null)
             "chrono"->ResourcesCompat.getDrawable(resources, R.drawable.chrono, null)
             "cortana"->ResourcesCompat.getDrawable(resources, R.drawable.cortana_halo, null)
             "dva"->ResourcesCompat.getDrawable(resources, R.drawable.dva, null)
@@ -205,7 +217,7 @@ class gameActivity : AppCompatActivity() {
             "gwen"->ResourcesCompat.getDrawable(resources, R.drawable.gwen, null)
             "haru"->ResourcesCompat.getDrawable(resources, R.drawable.haru_p5, null)
             "hunter"->ResourcesCompat.getDrawable(resources, R.drawable.hunter, null)
-            "jinx"->ResourcesCompat.getDrawable(resources, R.drawable.jinx, null)
+            "powder"->ResourcesCompat.getDrawable(resources, R.drawable.jinx, null)
             "joker"->ResourcesCompat.getDrawable(resources, R.drawable.joker_p5, null)
             "kasumi"->ResourcesCompat.getDrawable(resources, R.drawable.kasumi_p5, null)
             "kratos"->ResourcesCompat.getDrawable(resources, R.drawable.kratos, null)
@@ -251,4 +263,38 @@ class gameActivity : AppCompatActivity() {
 
         requestQueue.add(jsonObjectRequest)
     }
+
+    private fun adivinar(personaje: String){
+        val url: String = "http://10.0.2.2:3000/adivinarPersonaje"
+        val requestQueue = Volley.newRequestQueue(this)
+        val postData: JSONObject = JSONObject()
+        try {
+            postData.put("usuario",username)
+            postData.put("chatId", chatId)
+            postData.put("personaje",personaje)
+        } catch (e: JSONException){
+            Log.d("Error",e.toString())
+        }
+
+
+        Log.d("Data", postData.toString())
+
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.POST,
+            url,
+            postData,
+            { response ->
+                println(response)
+                println(JSONObject(response.toString()).get("result"))
+                if(JSONObject(response.toString()).get("result") == "si"){
+                    //Ir a pantalla de victoria
+                } else {
+                    //Ir a pantalla de derrota
+                }
+            }
+        ) { error -> error.printStackTrace() }
+
+        requestQueue.add(jsonObjectRequest)
+    }
+
 }
