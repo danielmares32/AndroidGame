@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-11-2021 a las 23:19:14
+-- Tiempo de generación: 30-11-2021 a las 04:44:27
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.3.31
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `android_gw_db`
+-- Base de datos: `nueva_android`
 --
 
 DELIMITER $$
@@ -297,7 +297,15 @@ INSERT INTO `personajes` (`id`, `nombre`, `nombre_letra`, `color_cabello`, `colo
 (5, 'a2', 'A y G', 'blanco', 'clara', 'lacio', 'nier automata', 'negro', 'mujer', 'heroe', 'ninguno', 'a2_nier.png'),
 (6, 'gwen', 'A y G', 'azul', 'clara', 'ondulado', 'league of legends', 'blanca', 'mujer', 'heroe', 'ninguno', 'gwenLol.png'),
 (7, 'dva', 'A y G', 'cafe', 'clara', 'grueso', 'overwatch', 'azul', 'mujer', 'heroe', 'ninguno', 'Dva_overwatch.png'),
-(8, 'cortana', 'A y G', 'negro', 'color', 'lacio', 'halo', 'ninguno', 'mujer', 'villano', 'ninguno', 'cortana_halo.png');
+(8, 'cortana', 'A y G', 'negro', 'color', 'lacio', 'halo', 'ninguno', 'mujer', 'villano', 'ninguno', 'cortana_halo.png'),
+(9, 'ash ketchum', 'A y K', 'negro', 'oscura', 'despeinado', 'pokemon', 'azul', 'masculino', 'heroe', 'gorra', NULL),
+(10, 'snake', 'Q y G', 'cafe', 'clara', 'lacio', 'metal gear solid', 'verde', 'masculino', 'heroe', 'parche', NULL),
+(11, 'chrono', 'A y G', 'rojo', 'clara', 'despeinado', 'chrono trigger', 'azul', 'masculino', 'heroe ', 'espada', NULL),
+(12, 'hunter', 'H y P', 'negro', 'clara', 'mohawk', 'monster hunter', 'negro', 'masculino', 'heroe', 'espada', NULL),
+(13, 'powder', 'H y P', 'azul', 'clara', 'trenzas', 'league of legends', 'morada', 'femenino', 'villano', 'armas', NULL),
+(14, 'simon riley', 'Q y G', 'desconocido', 'desconocido', 'desconocido', 'call of duty', 'gris', 'masculino', 'heroe', 'armas', NULL),
+(15, 'kratos', 'H y P', 'cafe', 'clara', 'desconocido', 'god of war', 'cafe', 'masculino', 'heroe', 'hacha', NULL),
+(16, 'samus ', 'Q y G', 'amarillo', 'clara', 'desconocido', 'metroid', 'dorada', 'femenino', 'heroe', 'arma', NULL);
 
 -- --------------------------------------------------------
 
@@ -334,8 +342,8 @@ INSERT INTO `preguntas` (`id_pregunta`, `pregunta`, `categoria`, `descripcion`) 
 (15, '¿pertenece al juego metal solid?', 'titulo_del_videojuego', 'metal gear solid'),
 (16, '¿pertenece al juego monster hunter?', 'titulo_del_videojuego', 'monster hunter'),
 (17, '¿pertenece al juego chrono trigger?', 'titulo_del_videojuego', 'chrono trigger'),
-(18, '¿es hombre?', 'genero', 'hombre'),
-(19, '¿es mujer?', 'genero', 'mujer'),
+(18, '¿es hombre?', 'genero', 'masculino'),
+(19, '¿es mujer?', 'genero', 'femenino'),
 (20, '¿es de genero desconocido?', 'genero', 'desconocido'),
 (21, '¿es heroe?', 'rol', 'heroe'),
 (22, '¿es villano?', 'rol', 'villano'),
@@ -378,7 +386,7 @@ INSERT INTO `preguntas` (`id_pregunta`, `pregunta`, `categoria`, `descripcion`) 
 (59, '¿es ash?', 'nombre', 'ash'),
 (60, '¿es batman?', 'nombre', 'batman'),
 (61, '¿es simon riley?', 'nombre', 'simon riley'),
-(62, '¿es jinx?', 'nombre', 'jinx'),
+(62, '¿es jinx?', 'nombre', 'powder'),
 (63, '¿es kratos?', 'nombre', 'kratos'),
 (64, '¿es mario?', 'nombre', 'mario'),
 (65, '¿es jhon?', 'nombre', 'jhon'),
@@ -390,7 +398,20 @@ INSERT INTO `preguntas` (`id_pregunta`, `pregunta`, `categoria`, `descripcion`) 
 (71, '¿es yoshi?', 'nombre', 'yoshi'),
 (72, '¿es hunter?', 'nombre', 'hunter'),
 (74, '¿es big boss?', 'nombre', 'big boss'),
-(75, '¿es crono?', 'nombre', 'crono');
+(75, '¿es crono?', 'nombre', 'crono'),
+(76, '¿tiene el cabello amarillo?', 'color_cabello', 'amarillo'),
+(77, '¿tiene el cabello despeinado?', 'tipo_de_cabello', 'despeinado'),
+(78, '¿tiene el cabello mohawk?', 'tipo_de_cabello', 'mohawk'),
+(79, '¿tiene trenzas?', 'tipo_de_cabello', 'trenzas'),
+(80, '¿viste de gris?', 'color_vestimenta', 'gris'),
+(81, '¿viste de morado?', 'color_vestimenta', 'morada'),
+(82, '¿viste de dorado?', 'color_vestimenta', 'dorada'),
+(83, '¿usa gorra?', 'accesorio', 'gorra'),
+(84, '¿usa armas?', 'accesorio', 'armas'),
+(85, '¿usa un arma?', 'accesorio', 'arma'),
+(86, '¿usa una hacha?', 'accesorio', 'hacha'),
+(87, '¿usa un parche?', 'accesorio', 'parche'),
+(88, '¿usa una espada?', 'accesorio', 'espada');
 
 -- --------------------------------------------------------
 
