@@ -150,6 +150,42 @@ app.post('/getPersonajeCPU', (req, res)=>{
   })
 });
 
+
+app.post('/actualizarPuntuacionVictoria', (req, res)=>{
+  let username = req.body.usuario;
+  console.log(req.body)
+  conn.query(`SELECT * FROM usuarios WHERE id_usu = '${username}'`,(err, result)=>{
+    if(err) throw err;
+    let id_puntuacion = result[0].id_puntuacion;
+    conn.query(`CALL actualizar_puntuacion_victoria('${id_puntuacion}')`,(err2, result2)=>{
+    if(err2){ 
+      res.send('{"result":"error"}')
+      throw err2;
+    }
+    console.log(result2);
+    res.send('{"result":"correcto"}');
+    });
+  });
+  
+});
+
+app.post('/actualizarPuntuacionDerrota', (req, res)=>{
+  let username = req.body.usuario;
+  console.log(req.body)
+  conn.query(`SELECT * FROM usuarios WHERE id_usu = '${username}'`,(err, result)=>{
+    if(err) throw err;
+    let id_puntuacion = result[0].id_puntuacion;
+    conn.query(`CALL actualizar_puntuacion_derrota('${id_puntuacion}')`,(err2, result2)=>{
+    if(err2){ 
+      res.send('{"result":"error"}')
+      throw err2;
+    }
+    console.log(result2);
+    res.send('{"result":"correcto"}');
+    });
+  });
+});
+
 app.post('/respuestas',(req,res)=>{
 
   let name_pregunta = req.body.pregunta;

@@ -29,7 +29,6 @@ class RoomActivity :  AppCompatActivity() {
         this.usernameGlobal = intent.getSerializableExtra("username") as String
         crearPartida(username)
         Handler().postDelayed({
-            //doSomethingHere()
             requestRoom(username, gameId)
         }, 2000)
 
