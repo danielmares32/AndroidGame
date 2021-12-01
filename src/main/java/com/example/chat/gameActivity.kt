@@ -111,7 +111,6 @@ class gameActivity : AppCompatActivity() {
                     }
                 }
             }
-
         }
 
         val datos = MutableList(1){
@@ -315,9 +314,11 @@ class gameActivity : AppCompatActivity() {
                     val intent = Intent(this,pantalla_victoria()::class.java).apply { putExtra("usernameGlobal",usernameGLobal) }
                     startActivity(intent)
                 } else {
-                    //Ir a pantalla de derrota
-                    val intent = Intent(this,derrota_activity()::class.java).apply { putExtra("usernameGlobal",usernameGLobal) }
-                    startActivity(intent)
+                    Toast.makeText(
+                        applicationContext,
+                        "Personaje no Adivinado",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         ) { error -> error.printStackTrace() }

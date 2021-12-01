@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 30, 2021 at 12:15 PM
+-- Generation Time: Dec 01, 2021 at 12:35 PM
 -- Server version: 8.0.27-0ubuntu0.20.04.1
 -- PHP Version: 7.4.3
 
@@ -26,6 +26,23 @@ DELIMITER $$
 --
 -- Procedures
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `actualizar_puntuacion_derrota` (IN `id_puntuacion` VARCHAR(20))  BEGIN
+
+UPDATE puntuaciones SET puntuaciones.total_partidas=puntuaciones.total_partidas+1,
+puntuaciones.total_derrotas=puntuaciones.total_derrotas+1
+WHERE puntuaciones.id_punt=id_puntuacion;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `actualizar_puntuacion_victoria` (IN `id_puntuacion` VARCHAR(20))  BEGIN
+
+UPDATE puntuaciones SET puntuaciones.total_partidas=puntuaciones.total_partidas+1,
+puntuaciones.total_victorias=puntuaciones.total_victorias+1,
+puntuaciones.total_puntos=puntuaciones.total_puntos+100
+WHERE puntuaciones.id_punt=id_puntuacion;
+
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `asignacion_personaje` ()  BEGIN
 SELECT ROUND((RAND() * (24 - 1)) + 1) AS personaje_asignado;
 END$$
@@ -300,7 +317,7 @@ CREATE TABLE `partidas` (
   `id_usuario2` varchar(20) DEFAULT NULL,
   `id_usuario1_personaje` int DEFAULT NULL,
   `id_usuario2_personaje` int DEFAULT NULL,
-  `id_usuario_ganador` varchar(20) DEFAULT NULL
+  `id_usuario_ganador` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -308,8 +325,12 @@ CREATE TABLE `partidas` (
 --
 
 INSERT INTO `partidas` (`id_game`, `id_usuario1`, `id_usuario2`, `id_usuario1_personaje`, `id_usuario2_personaje`, `id_usuario_ganador`) VALUES
-(1, '1', '2', 3, 8, '2'),
-(2, '1', '2', 5, 3, '1');
+(1, 'dany1', 'mario1', 9, 11, 0),
+(2, 'dany1', 'Mario1', 19, 12, 0),
+(3, 'Mario1', 'dany1', 11, 21, 0),
+(4, 'dany1', 'Mario1', 11, 1, 0),
+(5, 'dany1', 'Mario1', 4, 3, NULL),
+(6, 'dany1', 'Mario1', 19, 21, 0);
 
 -- --------------------------------------------------------
 
@@ -352,7 +373,7 @@ INSERT INTO `personajes` (`id`, `nombre`, `nombre_letra`, `color_cabello`, `colo
 (13, 'powder', 'H y P', 'azul', 'clara', 'trenzas', 'league of legends', 'morada', 'femenino', 'villano', 'armas', NULL),
 (14, 'ghost', 'A y G', 'desconocido', 'desconocido', 'desconocido', 'call of duty', 'gris', 'masculino', 'heroe', 'armas', NULL),
 (15, 'kratos', 'H y P', 'cafe', 'clara', 'desconocido', 'god of war', 'cafe', 'masculino', 'heroe', 'hacha', NULL),
-(16, 'samus ', 'Q y Z', 'amarillo', 'clara', 'desconocido', 'metroid', 'dorada', 'femenino', 'heroe', 'arma', NULL),
+(16, 'samus', 'Q y Z', 'amarillo', 'clara', 'desconocido', 'metroid', 'dorada', 'femenino', 'heroe', 'arma', NULL),
 (17, 'mario', 'H y P', 'castano', 'clara', 'desconocido', 'mario party', 'azul', 'masculino', 'heroe', 'gorra', NULL),
 (18, 'toad', 'Q y Z', 'rojo', 'clara', 'desconocido', 'mario party', 'blanca', 'masculino', 'heroe', 'gorra', NULL),
 (19, 'yoshi', 'Q y Z', 'verde', 'verde', 'lacio', 'mario party', 'ninguno', 'masculino', 'heroe', 'ninguno', NULL),
@@ -404,7 +425,7 @@ INSERT INTO `preguntas` (`id_pregunta`, `pregunta`, `categoria`, `descripcion`) 
 (22, '¿es villano?', 'rol', 'villano'),
 (23, '¿la primer letra del nombre esta entre A y G?', 'nombre_letra', 'A y G'),
 (24, '¿la primer letra del nombre esta entre H y P?', 'nombre_letra', 'H y P'),
-(25, '¿la primer letra del nombre esta entre Q y G?', 'nombre_letra', 'Q y G'),
+(25, '¿la primer letra del nombre esta entre Q y G?', 'nombre_letra', 'Q y Z'),
 (26, '¿tiene el cabello negro?', 'color_cabello', 'negro'),
 (27, '¿tiene el cabello rojo?', 'color_cabello', 'rojo'),
 (28, '¿tiene el cabello azul?', 'color_cabello', 'azul'),
@@ -415,7 +436,7 @@ INSERT INTO `preguntas` (`id_pregunta`, `pregunta`, `categoria`, `descripcion`) 
 (33, '¿tiene el cabello grueso?', 'tipo_de_cabello', 'grueso'),
 (34, '¿tiene el cabello lacio?', 'tipo_de_cabello', 'lacio'),
 (35, '¿tiene el cabello ondulado?', 'tipo_de_cabello', 'ondulado'),
-(36, '¿tiene nada de cabello?', 'tipo_de_cabello', 'desconocido'),
+(36, '¿tiene nada de cabello?', 'tipo_de_cabello', 'nada'),
 (37, '¿tiene la piel clara?', 'color_piel', 'clara'),
 (38, '¿tiene la piel oscura?', 'color_piel', 'oscura'),
 (39, '¿tiene la piel de color?', 'color_piel', 'color'),
@@ -438,35 +459,22 @@ INSERT INTO `preguntas` (`id_pregunta`, `pregunta`, `categoria`, `descripcion`) 
 (56, '¿es gwen?', 'nombre', 'gwen'),
 (57, '¿es dva?', 'nombre', 'dva'),
 (58, '¿es cortana?', 'nombre', 'cortana'),
-(59, '¿es ash?', 'nombre', 'ash ketchum'),
+(59, '¿es ash?', 'nombre', 'ash'),
 (60, '¿es batman?', 'nombre', 'batman'),
-(61, '¿es simon riley?', 'nombre', 'ghost'),
-(62, '¿es jinx?', 'nombre', 'powder'),
+(61, '¿es ghost?', 'nombre', 'ghost'),
+(62, '¿es powder?', 'nombre', 'powder'),
 (63, '¿es kratos?', 'nombre', 'kratos'),
 (64, '¿es mario?', 'nombre', 'mario'),
 (65, '¿es jhon?', 'nombre', 'jhon'),
-(66, '¿es packman?', 'nombre', 'packman'),
+(66, '¿es pacman?', 'nombre', 'pacman'),
 (67, '¿es samus?', 'nombre', 'samus'),
 (68, '¿es steve?', 'nombre', 'steve'),
 (69, '¿es toad?', 'nombre', 'toad'),
 (70, '¿es vader?', 'nombre', 'vader'),
 (71, '¿es yoshi?', 'nombre', 'yoshi'),
 (72, '¿es hunter?', 'nombre', 'hunter'),
-(74, '¿es big boss?', 'nombre', 'big boss'),
-(75, '¿es crono?', 'nombre', 'crono'),
-(76, '¿tiene el cabello amarillo?', 'color_cabello', 'amarillo'),
-(77, '¿tiene el cabello despeinado?', 'tipo_de_cabello', 'despeinado'),
-(78, '¿tiene el cabello mohawk?', 'tipo_de_cabello', 'mohawk'),
-(79, '¿tiene trenzas?', 'tipo_de_cabello', 'trenzas'),
-(80, '¿viste de gris?', 'color_vestimenta', 'gris'),
-(81, '¿viste de morado?', 'color_vestimenta', 'morada'),
-(82, '¿viste de dorado?', 'color_vestimenta', 'dorada'),
-(84, '¿usa armas?', 'accesorio', 'armas'),
-(85, '¿usa un arma?', 'accesorio', 'arma'),
-(86, '¿usa una hacha?', 'accesorio', 'hacha'),
-(87, '¿usa un parche?', 'accesorio', 'parche'),
-(88, '¿usa una espada?', 'accesorio', 'espada'),
-(89, '¿no tiene ningun accesorio?', 'accesorio', 'ninguno');
+(74, '¿es snake?', 'nombre', 'snake'),
+(75, '¿es chrono?', 'nombre', 'chrono');
 
 -- --------------------------------------------------------
 
@@ -475,20 +483,38 @@ INSERT INTO `preguntas` (`id_pregunta`, `pregunta`, `categoria`, `descripcion`) 
 --
 
 CREATE TABLE `puntuaciones` (
-  `id_punt` int NOT NULL,
+  `id_punt` varchar(20) NOT NULL,
   `total_partidas` int DEFAULT NULL,
   `total_victorias` int DEFAULT NULL,
   `total_derrotas` int DEFAULT NULL,
-  `total_puntos` int DEFAULT NULL
+  `total_puntos` int DEFAULT NULL,
+  `Prop_V_D` float(10,5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `puntuaciones`
 --
 
-INSERT INTO `puntuaciones` (`id_punt`, `total_partidas`, `total_victorias`, `total_derrotas`, `total_puntos`) VALUES
-(2, 12, 5, 7, 345),
-(3, 0, 0, 0, 0);
+INSERT INTO `puntuaciones` (`id_punt`, `total_partidas`, `total_victorias`, `total_derrotas`, `total_puntos`, `Prop_V_D`) VALUES
+('0', 0, 0, 0, 0, 0.00000),
+('2', 12, 5, 7, 345, 0.00000),
+('7', 14, 7, 7, 700, 0.00000),
+('8', 2, 0, 2, 0, 0.00000),
+('dany1', 5, 3, 2, 300, 1.50000),
+('enma1', 0, 0, 0, 0, 0.00000),
+('jose1', 0, 0, 0, 0, 0.00000),
+('mario1', 4, 1, 3, 100, 0.33333);
+
+--
+-- Triggers `puntuaciones`
+--
+DELIMITER $$
+CREATE TRIGGER `Calcular V_D` BEFORE UPDATE ON `puntuaciones` FOR EACH ROW IF NEW.total_derrotas!=0
+THEN
+set NEW.Prop_V_D=NEW.total_victorias/NEW.total_derrotas;
+END IF
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -500,7 +526,7 @@ CREATE TABLE `usuarios` (
   `id_usu` varchar(20) NOT NULL,
   `nombre` varchar(50) DEFAULT NULL,
   `id_pais` int DEFAULT NULL,
-  `id_puntuacion` int DEFAULT NULL,
+  `id_puntuacion` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `estado_conexion` varchar(2) DEFAULT NULL,
   `passwd` varchar(30) NOT NULL
 ) ;
@@ -510,31 +536,27 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usu`, `nombre`, `id_pais`, `id_puntuacion`, `estado_conexion`, `passwd`) VALUES
-('1', 'enma', 1, 2, 'D', 'kuru'),
-('2', 'joker', 1, 3, 'D', 'kuru');
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `vista_ranking`
--- (See below for the actual view)
---
-CREATE TABLE `vista_ranking` (
-`id_usu` varchar(20)
-,`total_partidas` int
-,`total_victorias` int
-,`total_derrotas` int
-,`total_puntos` int
-);
-
--- --------------------------------------------------------
+('dany1', 'Daniel', 1, 'dany1', 'D', 'hola'),
+('enma1', 'Enmanuel', 1, 'enma1', 'D', 'hola'),
+('jose1', 'Jose', 1, 'jose1', 'D', 'hola'),
+('mario1', 'Mario', 1, 'mario1', 'D', 'hola');
 
 --
--- Structure for view `vista_ranking`
+-- Triggers `usuarios`
 --
-DROP TABLE IF EXISTS `vista_ranking`;
+DELIMITER $$
+CREATE TRIGGER `User_Trigger1` BEFORE INSERT ON `usuarios` FOR EACH ROW BEGIN
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vista_ranking`  AS  select `usuarios`.`id_usu` AS `id_usu`,`puntuaciones`.`total_partidas` AS `total_partidas`,`puntuaciones`.`total_victorias` AS `total_victorias`,`puntuaciones`.`total_derrotas` AS `total_derrotas`,`puntuaciones`.`total_puntos` AS `total_puntos` from (`usuarios` join `puntuaciones`) where (`usuarios`.`id_puntuacion` = `puntuaciones`.`id_punt`) ;
+/*NEW.id_puntuacion=NEW.id_usu;*/
+INSERT into puntuaciones
+VALUES (NEW.id_usu,0,0,0,0,0.0);
+
+
+SET NEW.id_puntuacion=NEW.id_usu;
+
+END
+$$
+DELIMITER ;
 
 --
 -- Indexes for dumped tables
@@ -580,7 +602,7 @@ ALTER TABLE `puntuaciones`
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id_usu`),
   ADD KEY `FK_USU_PAIS` (`id_pais`),
-  ADD KEY `FK_USU_PUNT` (`id_puntuacion`);
+  ADD KEY `id_puntuacion` (`id_puntuacion`) USING BTREE;
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -590,7 +612,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT for table `partidas`
 --
 ALTER TABLE `partidas`
-  MODIFY `id_game` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_game` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
@@ -600,17 +622,17 @@ ALTER TABLE `partidas`
 -- Constraints for table `partidas`
 --
 ALTER TABLE `partidas`
-  ADD CONSTRAINT `FK_PER1_PART` FOREIGN KEY (`id_usuario1_personaje`) REFERENCES `personajes` (`id`),
-  ADD CONSTRAINT `FK_PER2_PART` FOREIGN KEY (`id_usuario2_personaje`) REFERENCES `personajes` (`id`),
-  ADD CONSTRAINT `FK_USU1_PART` FOREIGN KEY (`id_usuario1`) REFERENCES `usuarios` (`id_usu`),
-  ADD CONSTRAINT `FK_USU2_PART` FOREIGN KEY (`id_usuario2`) REFERENCES `usuarios` (`id_usu`);
+  ADD CONSTRAINT `partidas_ibfk_1` FOREIGN KEY (`id_usuario1`) REFERENCES `usuarios` (`id_usu`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `partidas_ibfk_2` FOREIGN KEY (`id_usuario2`) REFERENCES `usuarios` (`id_usu`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `partidas_ibfk_3` FOREIGN KEY (`id_usuario1_personaje`) REFERENCES `personajes` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `partidas_ibfk_4` FOREIGN KEY (`id_usuario2_personaje`) REFERENCES `personajes` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD CONSTRAINT `FK_USU_PAIS` FOREIGN KEY (`id_pais`) REFERENCES `paises` (`id_p`),
-  ADD CONSTRAINT `FK_USU_PUNT` FOREIGN KEY (`id_puntuacion`) REFERENCES `puntuaciones` (`id_punt`);
+  ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`id_pais`) REFERENCES `paises` (`id_p`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `usuarios_ibfk_2` FOREIGN KEY (`id_puntuacion`) REFERENCES `puntuaciones` (`id_punt`) ON DELETE SET NULL ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
