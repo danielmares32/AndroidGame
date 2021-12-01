@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-12-2021 a las 18:21:20
+-- Tiempo de generación: 01-12-2021 a las 18:33:13
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.4.10
 
@@ -457,7 +457,7 @@ CREATE TABLE `puntuaciones` (
   `total_victorias` int(10) DEFAULT NULL,
   `total_derrotas` int(10) DEFAULT NULL,
   `total_puntos` int(10) DEFAULT NULL,
-  `Prop_V_D` decimal(5,0) NOT NULL
+  `Prop_V_D` float(10,5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -465,9 +465,9 @@ CREATE TABLE `puntuaciones` (
 --
 
 INSERT INTO `puntuaciones` (`id_punt`, `total_partidas`, `total_victorias`, `total_derrotas`, `total_puntos`, `Prop_V_D`) VALUES
-('2', 12, 5, 7, 345, '0'),
-('5', 0, 0, 0, 0, '0'),
-('7', 0, 0, 0, 0, '0');
+('2', 12, 5, 7, 345, 0.00000),
+('5', 60, 50, 10, 500, 5.00000),
+('7', 0, 0, 0, 0, 0.00000);
 
 --
 -- Disparadores `puntuaciones`
