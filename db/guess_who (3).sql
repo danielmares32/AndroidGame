@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 01, 2021 at 12:35 PM
+-- Generation Time: Dec 01, 2021 at 12:42 PM
 -- Server version: 8.0.27-0ubuntu0.20.04.1
 -- PHP Version: 7.4.3
 
@@ -317,7 +317,7 @@ CREATE TABLE `partidas` (
   `id_usuario2` varchar(20) DEFAULT NULL,
   `id_usuario1_personaje` int DEFAULT NULL,
   `id_usuario2_personaje` int DEFAULT NULL,
-  `id_usuario_ganador` int DEFAULT NULL
+  `id_usuario_ganador` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -325,12 +325,12 @@ CREATE TABLE `partidas` (
 --
 
 INSERT INTO `partidas` (`id_game`, `id_usuario1`, `id_usuario2`, `id_usuario1_personaje`, `id_usuario2_personaje`, `id_usuario_ganador`) VALUES
-(1, 'dany1', 'mario1', 9, 11, 0),
-(2, 'dany1', 'Mario1', 19, 12, 0),
-(3, 'Mario1', 'dany1', 11, 21, 0),
-(4, 'dany1', 'Mario1', 11, 1, 0),
+(1, 'dany1', 'mario1', 9, 11, '0'),
+(2, 'dany1', 'Mario1', 19, 12, '0'),
+(3, 'Mario1', 'dany1', 11, 21, '0'),
+(4, 'dany1', 'Mario1', 11, 1, '0'),
 (5, 'dany1', 'Mario1', 4, 3, NULL),
-(6, 'dany1', 'Mario1', 19, 21, 0);
+(6, 'dany1', 'Mario1', 19, 21, '0');
 
 -- --------------------------------------------------------
 
