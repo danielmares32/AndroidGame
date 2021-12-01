@@ -1,5 +1,6 @@
 package com.example.chat
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -69,9 +70,15 @@ class RegistroActivity : AppCompatActivity() {
             url,
             postData,
             {   response -> println("Respuesta a registro: "+response)
+                println(JSONObject(response.toString()).get("message"))
+                val mensaje = JSONObject(response.toString()).get("message").toString()
                 status.visibility=TextView.VISIBLE
                 status.text="${response["message"].toString()}"
                 status.visibility=TextView.VISIBLE
+                if(mensaje=="success!"){
+                    val intent = Intent(this,MainActivity()::class.java)
+                    startActivity(intent)
+                }
             }
         ) { error -> error.printStackTrace()
             status.visibility=TextView.VISIBLE
