@@ -81,10 +81,10 @@ app.post('/buscar_puntuacion', (req,res)=>{
   //let id_jugador = req.session.user;
   let id_jugador = req.body.id;
   console.log(req.body);
-    conn.query(`SELECT nombre,total_partidas,total_victorias,total_derrotas,total_puntos 
-      FROM puntuaciones,usuarios WHERE puntuaciones.id_punt=usuarios.id_puntuacion and usuarios.id_usu='${id_jugador}'`,(err,result)=>{
+    conn.query(`SELECT abreviacion,usuarios.nombre,total_partidas,total_victorias,total_derrotas,total_puntos 
+      FROM puntuaciones,usuarios,paises WHERE paises.id_p=usuarios.id_pais && puntuaciones.id_punt=usuarios.id_puntuacion and usuarios.id_usu='${id_jugador}'`,(err,result)=>{
         console.log(result);
-        res.send(`{"total_partidas":"${result[0].total_partidas}","total_derrotas":"${result[0].total_derrotas}","total_victorias":"${result[0].total_victorias}","total_puntos":"${result[0].total_puntos}"}`);
+        res.send(`{"nacionalidad":"${result[0].abreviacion}","total_partidas":"${result[0].total_partidas}","total_derrotas":"${result[0].total_derrotas}","total_victorias":"${result[0].total_victorias}","total_puntos":"${result[0].total_puntos}"}`);
       });
 
 });
