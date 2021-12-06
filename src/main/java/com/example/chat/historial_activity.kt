@@ -17,6 +17,7 @@ class historial_activity : AppCompatActivity() {
     private lateinit var victorias : TextView
     private lateinit var derrotas : TextView
     private lateinit var puntos : TextView
+    private lateinit var nac : TextView
     private lateinit var volver : ImageButton
     private val URL = "http://10.0.2.2:3000/buscar_puntuacion"
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +27,7 @@ class historial_activity : AppCompatActivity() {
         //recibimos el id del jugador, necesario para mostrar sus datos
         val id_jugador = intent.getSerializableExtra("username") as String
 
+        nac = findViewById(R.id.lblNac)
         partidas = findViewById(R.id.lblPart)
         victorias = findViewById(R.id.lblV)
         derrotas = findViewById(R.id.lblD)
@@ -54,6 +56,7 @@ class historial_activity : AppCompatActivity() {
             victorias.text = response.getString("total_victorias")
             derrotas.text = response.getString("total_derrotas")
             puntos.text = response.getString("total_puntos")
+            nac.text = response.getString("nacionalidad")
         },
             Response.ErrorListener { error -> error.printStackTrace() })
         cola.add(JsonObjectRequest)
